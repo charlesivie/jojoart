@@ -27,8 +27,8 @@ import static org.mockito.Mockito.when;
 public class CategoryControllerTest {
 
     @Mock
-    CategoryDaoImpl categoryDao;
-    CategoryController categoryController;
+    private CategoryDaoImpl categoryDao;
+    private CategoryController categoryController;
 
     @Before
     public void setup(){

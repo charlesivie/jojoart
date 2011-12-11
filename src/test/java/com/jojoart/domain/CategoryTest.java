@@ -1,5 +1,6 @@
 package com.jojoart.domain;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -14,11 +15,15 @@ import static org.junit.Assert.*;
 
 public class CategoryTest {
 
+    @Before
+    public void setup(){
+    }
+
     @Test
     public void equalsReturnsTrueWhenEqual() {
 
-        Category category1 = new Category("john", "desc", true, false);
-        Category category2 = new Category("john", "desc", true, false);
+        Category category1 = new Category("john", "desc", true, false, null);
+        Category category2 = new Category("john", "desc", true, false, null);
 
         assertTrue(category1.equals(category2));
 
@@ -27,8 +32,8 @@ public class CategoryTest {
     @Test
     public void equalsReturnsFalseWhenNotEqual() {
 
-        Category category1 = new Category("john", "desc", true, false);
-        Category category2 = new Category("bob", "desc", true, false);
+        Category category1 = new Category("john", "desc", true, false, null);
+        Category category2 = new Category("bob", "desc", true, false, null);
 
         assertFalse(category1.equals(category2));
 
@@ -37,8 +42,8 @@ public class CategoryTest {
     @Test
     public void hashCodeShouldBeEqual() {
 
-        Category category1 = new Category("john", "desc", true, false);
-        Category category2 = new Category("john", "desc", true, false);
+        Category category1 = new Category("john", "desc", true, false, null);
+        Category category2 = new Category("john", "desc", true, false, null);
 
         assertEquals(category1.hashCode(), category2.hashCode());
 
@@ -47,8 +52,8 @@ public class CategoryTest {
     @Test
     public void hashCodeShouldNotBeEqual() {
 
-        Category category1 = new Category("john", "desc", true, false);
-        Category category2 = new Category("bob", "desc", true, false);
+        Category category1 = new Category("john", "desc", true, false, null);
+        Category category2 = new Category("bob", "desc", true, false, null);
 
         assertNotSame(category1.hashCode(), category2.hashCode());
 

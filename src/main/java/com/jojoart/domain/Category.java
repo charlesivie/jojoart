@@ -1,9 +1,7 @@
 package com.jojoart.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 
 /**
@@ -22,6 +20,15 @@ public class Category implements Serializable {
     private String description;
     private boolean isActive;
     private boolean isDefaultCategory;
+    @Null @OneToOne private Image image;
+
+    public Category(String name, String description, boolean isActive, boolean isDefaultCategory, Image image) {
+        this.name = name;
+        this.description = description;
+        this.isActive = isActive;
+        this.isDefaultCategory = isDefaultCategory;
+        this.image = image;
+    }
 
     public Category(String name, String description, boolean isActive, boolean isDefaultCategory) {
         this.name = name;
@@ -31,6 +38,14 @@ public class Category implements Serializable {
     }
 
     public Category() {
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     public long getId() {

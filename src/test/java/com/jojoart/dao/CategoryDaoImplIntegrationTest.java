@@ -1,6 +1,7 @@
 package com.jojoart.dao;
 
 import com.jojoart.domain.Category;
+import com.jojoart.domain.Image;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,13 @@ public class CategoryDaoImplIntegrationTest {
 
     @Autowired
     CategoryDao categoryDao;
+    @Autowired
+    ImageDataDao imageDataDao;
 
     @Transactional
     @Test
     public void testInsert() {
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
         categoryDao.create(category);
         assertTrue(category.getId() > 0);
     }
@@ -39,9 +42,10 @@ public class CategoryDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testUpdate() {
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         categoryDao.create(category);
+        Image image = imageDataDao.create(new Image("cow", "pic of a cow", "image/jpg", true, category));
 
         long createdId = category.getId();
 
@@ -49,11 +53,12 @@ public class CategoryDaoImplIntegrationTest {
         category.setDescription("updated");
         category.setActive(false);
         category.setDefaultCategory(false);
+        category.setImage(image);
 
         categoryDao.update(category);
 
         Category actual = categoryDao.read(Category.class, createdId);
-        Category expected = new Category("updated", "updated", false, false);
+        Category expected = new Category("updated", "updated", false, false, image);
 
         assertEquals(expected, actual);
     }
@@ -61,8 +66,8 @@ public class CategoryDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testDelete() {
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
-        Category category2 = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category2 = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         categoryDao.create(category);
         categoryDao.create(category2);
@@ -80,8 +85,8 @@ public class CategoryDaoImplIntegrationTest {
     @Test
     public void testList() {
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
-        Category category2 = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category2 = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         categoryDao.create(category);
         categoryDao.create(category2);
@@ -97,7 +102,7 @@ public class CategoryDaoImplIntegrationTest {
     public void testListWithOffsetAndLimit() {
 
         for(int i = 0;i<20;i++){
-            categoryDao.create(new Category("Landscapes", "outdoors landscapes", true, true));
+            categoryDao.create(new Category("Landscapes", "outdoors landscapes", true, true, null));
         }
 
         List<Category> categories = categoryDao.list(Category.class, 10, 10);
@@ -110,14 +115,14 @@ public class CategoryDaoImplIntegrationTest {
     @Test
     public void testFind(){
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         categoryDao.create(category);
 
         long createdId = category.getId();
 
         Category actual = categoryDao.read(Category.class, createdId);
-        Category expected = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category expected = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         assertEquals(expected, actual);
     }

@@ -2,7 +2,6 @@ package com.jojoart.domain;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,34 +16,20 @@ public class Image implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private int imageSizeType;
-    private String mimeType;
-    private byte[] imageBlob;
     private String name;
     private String description;
+    private String mimeType;
     private boolean isActive;
-    private boolean isDefaultImage;
 
-    @ManyToOne private ImageGroup imageGroup;
+    @OneToOne private Category category;
 
-    public Image(
-            int imageSizeType,
-            String mimeType,
-            byte[] imageBlob,
-            String name,
-            String description,
-            boolean active,
-            boolean defaultImage,
-            ImageGroup imageGroup) {
 
-        this.imageSizeType = imageSizeType;
-        this.mimeType = mimeType;
-        this.imageBlob = imageBlob;
+    public Image(String name, String description, String mimeType, boolean active, Category category) {
         this.name = name;
         this.description = description;
-        isActive = active;
-        isDefaultImage = defaultImage;
-        this.imageGroup = imageGroup;
+        this.mimeType = mimeType;
+        this.isActive = active;
+        this.category = category;
     }
 
     public Image() {
@@ -54,32 +39,8 @@ public class Image implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
-    }
-
-    public int getImageSizeType() {
-        return imageSizeType;
-    }
-
-    public void setImageSizeType(int imageSizeType) {
-        this.imageSizeType = imageSizeType;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public void setMimeType(String mimeType) {
-        this.mimeType = mimeType;
-    }
-
-    public byte[] getImageBlob() {
-        return imageBlob;
-    }
-
-    public void setImageBlob(byte[] imageBlob) {
-        this.imageBlob = imageBlob;
     }
 
     public String getName() {
@@ -98,6 +59,14 @@ public class Image implements Serializable {
         this.description = description;
     }
 
+    public String getMimeType() {
+        return mimeType;
+    }
+
+    public void setMimeType(String mimeType) {
+        this.mimeType = mimeType;
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -106,20 +75,12 @@ public class Image implements Serializable {
         isActive = active;
     }
 
-    public boolean isDefaultImage() {
-        return isDefaultImage;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setDefaultImage(boolean defaultImage) {
-        isDefaultImage = defaultImage;
-    }
-
-    public ImageGroup getImageGroup() {
-        return imageGroup;
-    }
-
-    public void setImageGroup(ImageGroup imageGroup) {
-        this.imageGroup = imageGroup;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     @Override
@@ -129,12 +90,9 @@ public class Image implements Serializable {
 
         Image image = (Image) o;
 
-        return imageSizeType == image.imageSizeType
-                && isActive == image.isActive
-                && isDefaultImage == image.isDefaultImage
+        return isActive == image.isActive &&
+                !(category != null ? !category.equals(image.category) : image.category != null)
                 && !(description != null ? !description.equals(image.description) : image.description != null)
-                && !(imageGroup != null ? !imageGroup.equals(image.imageGroup) : image.imageGroup != null)
-                && Arrays.equals(imageBlob, image.imageBlob)
                 && !(mimeType != null ? !mimeType.equals(image.mimeType) : image.mimeType != null)
                 && !(name != null ? !name.equals(image.name) : image.name != null);
 
@@ -142,14 +100,11 @@ public class Image implements Serializable {
 
     @Override
     public int hashCode() {
-        int result = imageSizeType;
-        result = 31 * result + (mimeType != null ? mimeType.hashCode() : 0);
-        result = 31 * result + (imageBlob != null ? Arrays.hashCode(imageBlob) : 0);
-        result = 31 * result + (name != null ? name.hashCode() : 0);
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (description != null ? description.hashCode() : 0);
+        result = 31 * result + (mimeType != null ? mimeType.hashCode() : 0);
         result = 31 * result + (isActive ? 1 : 0);
-        result = 31 * result + (isDefaultImage ? 1 : 0);
-        result = 31 * result + (imageGroup != null ? imageGroup.hashCode() : 0);
+        result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
 }
