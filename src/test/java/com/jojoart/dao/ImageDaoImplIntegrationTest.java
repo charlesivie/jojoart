@@ -30,12 +30,12 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/spring/spring-config.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-public class ImageDataDaoImplIntegrationTest {
+public class ImageDaoImplIntegrationTest {
    
     @Autowired
     ImageVersionDao imageVersionDao;
     @Autowired
-    ImageDataDao imageDataDao;
+    ImageDao imageDao;
     @Autowired
     CategoryDao categoryDao;
     Image image;
@@ -45,8 +45,14 @@ public class ImageDataDaoImplIntegrationTest {
     @Before
     public void setup(){
         category = categoryDao.create(new Category("Landscapes", "outdoors landscapes", true, true));
-        image = imageDataDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
-        image2 = imageDataDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
+        image = imageDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
+        image2 = imageDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
+    }
+    
+    @Transactional
+    @Test
+    public void listImagesForCategoryShouldGetThreeImages(){
+        fail();
     }
 
     @Transactional

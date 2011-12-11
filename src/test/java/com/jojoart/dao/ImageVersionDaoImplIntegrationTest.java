@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 public class ImageVersionDaoImplIntegrationTest {
 
     @Autowired
-    ImageDataDao imageDataDao;
+    ImageDao imageDao;
     @Autowired
     CategoryDao categoryDao;
     Category category;
@@ -46,7 +46,7 @@ public class ImageVersionDaoImplIntegrationTest {
     @Test
     public void testInsert() {
         Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
-        imageDataDao.create(image);
+        imageDao.create(image);
         assertTrue(image.getId() > 0);
     }
 
@@ -55,7 +55,7 @@ public class ImageVersionDaoImplIntegrationTest {
     public void testUpdate() {
         Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageDataDao.create(image);
+        imageDao.create(image);
 
         long createdId = image.getId();
 
@@ -65,9 +65,9 @@ public class ImageVersionDaoImplIntegrationTest {
         image.setMimeType("image/gif");
         image.setCategory(category2);
 
-        imageDataDao.update(image);
+        imageDao.update(image);
 
-        Image actual = imageDataDao.read(Image.class, createdId);
+        Image actual = imageDao.read(Image.class, createdId);
         Image expected = new Image("updated", "updated", "image/gif", false, category2);
 
         assertEquals(expected, actual);
@@ -79,14 +79,14 @@ public class ImageVersionDaoImplIntegrationTest {
         Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
         Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageDataDao.create(image);
-        imageDataDao.create(image2);
+        imageDao.create(image);
+        imageDao.create(image2);
 
         long group2Id = image2.getId();
 
-        imageDataDao.delete(image2);
+        imageDao.delete(image2);
 
-        Image nullImage = imageDataDao.read(Image.class, group2Id);
+        Image nullImage = imageDao.read(Image.class, group2Id);
 
         assertNull(nullImage);
     }
@@ -98,10 +98,10 @@ public class ImageVersionDaoImplIntegrationTest {
         Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
         Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageDataDao.create(image);
-        imageDataDao.create(image2);
+        imageDao.create(image);
+        imageDao.create(image2);
 
-        List<Image> imageList = imageDataDao.list(Image.class);
+        List<Image> imageList = imageDao.list(Image.class);
 
         assertTrue(imageList.size() == 2);
 
@@ -112,10 +112,10 @@ public class ImageVersionDaoImplIntegrationTest {
     public void testListWithOffsetAndLimit() {
 
         for (int i = 0; i < 20; i++) {
-            imageDataDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
+            imageDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
         }
 
-        List<Image> imageList = imageDataDao.list(Image.class, 10, 10);
+        List<Image> imageList = imageDao.list(Image.class, 10, 10);
 
         assertTrue(imageList.size() == 10);
 
@@ -127,11 +127,11 @@ public class ImageVersionDaoImplIntegrationTest {
 
         Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageDataDao.create(image);
+        imageDao.create(image);
 
         long createdId = image.getId();
 
-        Image actual = imageDataDao.read(Image.class, createdId);
+        Image actual = imageDao.read(Image.class, createdId);
         Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
         assertEquals(expected, actual);

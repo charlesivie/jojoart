@@ -29,7 +29,7 @@ public class CategoryDaoImplIntegrationTest {
     @Autowired
     CategoryDao categoryDao;
     @Autowired
-    ImageDataDao imageDataDao;
+    ImageDao imageDao;
 
     @Transactional
     @Test
@@ -45,7 +45,7 @@ public class CategoryDaoImplIntegrationTest {
         Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         categoryDao.create(category);
-        Image image = imageDataDao.create(new Image("cow", "pic of a cow", "image/jpg", true, category));
+        Image image = imageDao.create(new Image("cow", "pic of a cow", "image/jpg", true, category));
 
         long createdId = category.getId();
 

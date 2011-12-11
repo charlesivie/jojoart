@@ -22,8 +22,9 @@
                     <a href="/art/category/${category.id}">
                         ${category.name},
                         ${category.description},
-                        ${category.active}
+                        ${category.active},
                         ${category.defaultCategory}</a>
+                   ${category.image.name}
                 </li>
             </c:forEach>
         </ul>

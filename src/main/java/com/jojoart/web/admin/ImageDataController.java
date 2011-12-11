@@ -1,6 +1,6 @@
 package com.jojoart.web.admin;
 
-import com.jojoart.dao.ImageDataDao;
+import com.jojoart.dao.ImageDao;
 import com.jojoart.domain.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,13 +21,13 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ImageDataController {
 
-    private ImageDataDao imageDataDao;
+    private ImageDao imageDao;
 
     @RequestMapping(value = "/list", method = GET)
     public ModelAndView list() {
 
         ModelAndView modelAndView = new ModelAndView("/image/list");
-        modelAndView.addObject("images", imageDataDao.list(Image.class));
+        modelAndView.addObject("images", imageDao.list(Image.class));
 
         return modelAndView;
     }
@@ -38,7 +38,7 @@ public class ImageDataController {
         Image image = new Image();
 
         if(id>0) {
-            image = imageDataDao.read(Image.class, id);
+            image = imageDao.read(Image.class, id);
         }
 
         ModelAndView modelAndView = new ModelAndView("image/edit");
@@ -51,10 +51,10 @@ public class ImageDataController {
     public ModelAndView edit(@ModelAttribute("image") Image image, @PathVariable long id) {
 
         if(image.getId()>0) {
-            imageDataDao.update(image);
+            imageDao.update(image);
         }
         else {
-            imageDataDao.create(image);
+            imageDao.create(image);
         }
 
         ModelAndView modelAndView = new ModelAndView("image/edit");
@@ -64,7 +64,7 @@ public class ImageDataController {
         return modelAndView;
     }
 
-    public void setImageDataDao(ImageDataDao imageDataDao) {
-        this.imageDataDao = imageDataDao;
+    public void setImageDao(ImageDao imageDao) {
+        this.imageDao = imageDao;
     }
 }

@@ -9,5 +9,5 @@ import com.jojoart.domain.Image;
  * Time: 09:45
  * To change this template use File | Settings | File Templates.
  */
-public interface ImageDataDao extends GenericDao<Image, Long> {
+public interface ImageDao extends GenericDao<Image, Long> {
 }

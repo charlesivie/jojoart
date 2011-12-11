@@ -1,8 +1,11 @@
 package com.jojoart.dao;
 
+import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,5 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class ImageDataDaoImpl extends GenericDaoImpl<Image, Long> implements ImageDataDao {
+public class ImageDaoImpl extends GenericDaoImpl<Image, Long> implements ImageDao {
+    public List<Image> listImagesForCategory(Category category) {
+
+        return null;
+    }
 }

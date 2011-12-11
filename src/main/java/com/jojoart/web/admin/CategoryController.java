@@ -1,6 +1,7 @@
 package com.jojoart.web.admin;
 
 import com.jojoart.dao.CategoryDao;
+import com.jojoart.dao.ImageDao;
 import com.jojoart.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class CategoryController {
 
     private CategoryDao categoryDao;
+    private ImageDao imageDao;
 
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list() {
@@ -66,5 +68,10 @@ public class CategoryController {
     @Autowired
     public void setCategoryDao(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
+    }
+
+    @Autowired
+    public void setImageDao(ImageDao imageDao) {
+        this.imageDao = imageDao;
     }
 }

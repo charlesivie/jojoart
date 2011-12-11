@@ -1,6 +1,6 @@
 package com.jojoart.web.admin;
 
-import com.jojoart.dao.ImageDataDaoImpl;
+import com.jojoart.dao.ImageDaoImpl;
 import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
 import org.junit.Before;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.when;
 public class ImageDataControllerTest {
 
     @Mock
-    private ImageDataDaoImpl imageDataDao;
+    private ImageDaoImpl imageDataDao;
     @Mock
     private Category mockCategory;
     private ImageDataController imageDataController;
@@ -37,7 +37,7 @@ public class ImageDataControllerTest {
     @Before
     public void setup(){
         imageDataController = new ImageDataController();
-        imageDataController.setImageDataDao(imageDataDao);
+        imageDataController.setImageDao(imageDataDao);
     }
 
     @Test
