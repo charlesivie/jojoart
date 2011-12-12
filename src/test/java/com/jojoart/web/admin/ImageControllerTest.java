@@ -1,5 +1,7 @@
 package com.jojoart.web.admin;
 
+import com.jojoart.dao.CategoryDao;
+import com.jojoart.dao.CategoryDaoImpl;
 import com.jojoart.dao.ImageDaoImpl;
 import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -31,6 +34,8 @@ public class ImageControllerTest {
     @Mock
     private ImageDaoImpl imageDataDao;
     @Mock
+    private CategoryDaoImpl categoryDao;
+    @Mock
     private Category mockCategory;
     private ImageController imageController;
 
@@ -38,10 +43,11 @@ public class ImageControllerTest {
     public void setup(){
         imageController = new ImageController();
         imageController.setImageDao(imageDataDao);
+        imageController.setCategoryDao(categoryDao);
     }
 
     @Test
-    public void testListReturnsModelAndViewWithList() throws Exception {
+    public void listReturnsModelAndViewWithList() throws Exception {
 
         List<Image> images = new ArrayList<Image>();
 
@@ -59,7 +65,44 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void testEditReturnsModelAndViewWithImageGroup() throws Exception {
+    public void getEditShouldLoadCategoryListOnModel(){
+
+        List<Category> categories = new ArrayList<Category>();
+        for(int i = 1; i <10; i++){
+            categories.add(new Category("john"+i, "desc", true, false, null));
+        }
+
+        Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+
+        when(imageDataDao.read(Image.class, 1l)).thenReturn(image);
+        when(categoryDao.list(Category.class)).thenReturn(categories);
+
+        ModelAndView modelAndView = imageController.edit(1l);
+
+        assertEquals(categories, modelAndView.getModelMap().get("categories"));
+    }
+
+    @Test
+    public void postEditShouldLoadCategoryListOnModel(){
+        
+        List<Category> categories = new ArrayList<Category>();
+        for(int i = 1; i <10; i++){
+            categories.add(new Category("john"+i, "desc", true, false, null));
+        }
+
+        Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+
+        when(imageDataDao.create(image)).thenReturn(image);
+        when(categoryDao.list(Category.class)).thenReturn(categories);
+
+        ModelAndView modelAndView = imageController.edit(image, 0);
+
+        assertEquals(categories, modelAndView.getModelMap().get("categories"));
+
+    }
+
+    @Test
+    public void getEditReturnsModelAndViewWithImage() throws Exception {
 
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
@@ -74,7 +117,7 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void testProcessSubmitStoresNewImageGroup(){
+    public void postEditStoresNewImage(){
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
         when(imageDataDao.create(expected)).thenReturn(expected);
@@ -88,7 +131,7 @@ public class ImageControllerTest {
     }
 
     @Test
-    public void testProcessSubmitUpdatesImageGroup(){
+    public void postEditUpdatesImage(){
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
         expected.setId(1l);
 

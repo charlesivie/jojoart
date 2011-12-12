@@ -95,10 +95,12 @@ public class Category implements Serializable {
 
         Category category = (Category) o;
 
-        return  isActive == category.isActive
+        return isActive == category.isActive
                 && isDefaultCategory == category.isDefaultCategory
                 && !(description != null ? !description.equals(category.description) : category.description != null)
+                && !(image != null ? !image.equals(category.image) : category.image != null)
                 && !(name != null ? !name.equals(category.name) : category.name != null);
+
     }
 
     @Override
@@ -107,6 +109,7 @@ public class Category implements Serializable {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (isActive ? 1 : 0);
         result = 31 * result + (isDefaultCategory ? 1 : 0);
+        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 }

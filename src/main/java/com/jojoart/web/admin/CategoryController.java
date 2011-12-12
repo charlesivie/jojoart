@@ -37,14 +37,14 @@ public class CategoryController {
     public ModelAndView edit(@PathVariable long id) {
 
         Category category = new Category();
+        ModelAndView modelAndView = new ModelAndView("category/edit");
 
-        if(id>0) {
+        if (id > 0) {
             category = categoryDao.read(Category.class, id);
+            modelAndView.addObject("images", imageDao.listImagesByCategory(category));
         }
 
-        ModelAndView modelAndView = new ModelAndView("category/edit");
         modelAndView.addObject("category", category);
-        modelAndView.addObject("images", imageDao.listImagesByCategory(category));
 
         return modelAndView;
     }
@@ -52,14 +52,15 @@ public class CategoryController {
     @RequestMapping(value = "/{id}", method = RequestMethod.POST)
     public ModelAndView edit(@ModelAttribute("category") Category category, @PathVariable long id) {
 
-        if(category.getId()>0) {
+        if (category.getId() > 0) {
             categoryDao.update(category);
-        }
-        else {
+        } else {
             categoryDao.create(category);
         }
 
         ModelAndView modelAndView = new ModelAndView("category/edit");
+
+        modelAndView.addObject("images", imageDao.listImagesByCategory(category));
         modelAndView.addObject("category", category);
         modelAndView.addObject("saved", true);
 

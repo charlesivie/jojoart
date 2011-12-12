@@ -15,8 +15,13 @@ import static org.junit.Assert.*;
 
 public class CategoryTest {
 
+    Image image;
+    Image image2;
+    
     @Before
     public void setup(){
+        image = new Image("image", "pictures of a cow", "image/jpg", true, null);
+        image2 = new Image("image 2", "pictures of a dog", "image/jpg", true, null);
     }
 
     @Test
@@ -40,6 +45,16 @@ public class CategoryTest {
     }
 
     @Test
+    public void equalsReturnsFalseWhenImageNotEqual() {
+
+        Category category1 = new Category("john", "desc", true, false, image);
+        Category category2 = new Category("john", "desc", true, false, image2);
+
+        assertFalse(category1.equals(category2));
+
+    }
+
+    @Test
     public void hashCodeShouldBeEqual() {
 
         Category category1 = new Category("john", "desc", true, false, null);
@@ -54,6 +69,16 @@ public class CategoryTest {
 
         Category category1 = new Category("john", "desc", true, false, null);
         Category category2 = new Category("bob", "desc", true, false, null);
+
+        assertNotSame(category1.hashCode(), category2.hashCode());
+
+    }
+
+    @Test
+    public void hashCodeShouldNotBeEqualWhenImagesAreDifferent() {
+
+        Category category1 = new Category("john", "desc", true, false, image);
+        Category category2 = new Category("bob", "desc", true, false, image2);
 
         assertNotSame(category1.hashCode(), category2.hashCode());
 

@@ -17,7 +17,6 @@ import java.util.List;
 @Repository
 public class ImageDaoImpl extends GenericDaoImpl<Image, Long> implements ImageDao {
     public List<Image> listImagesByCategory(Category category) {
-
         return getEntityManager()
                 .createQuery("SELECT a FROM Image a WHERE :category = a.category", Image.class)
                 .setParameter("category", category)

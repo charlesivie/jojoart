@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,16 +34,18 @@ public class CategoryControllerTest {
     @Mock
     private ImageDaoImpl mockImageDao;
     private CategoryController categoryController;
+    private Image image;
 
     @Before
     public void setup(){
+        image = new Image("image", "pictures of a cow", "image/jpg", true, null);
         categoryController = new CategoryController();
         categoryController.setCategoryDao(mockCategoryDao);
         categoryController.setImageDao(mockImageDao);
     }
-
+    
     @Test
-    public void editShouldProvideCategoryWithImageToModelAndView(){
+    public void getEditShouldProvideCategoryWithImageToModelAndView(){
 
         Category expected = new Category("bob", "jones", true, false);
         Image expectedImage = new Image("image", "desc", "image/jpg", true, expected);
@@ -59,7 +62,7 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void editShouldProvideImageListToModelAndView(){
+    public void getEditShouldProvideImageListToModelAndView(){
 
         Category expected = new Category("bob", "jones", true, false);
         Image expectedImage = new Image("image", "desc", "image/jpg", true, expected);
@@ -74,6 +77,29 @@ public class CategoryControllerTest {
         when(mockImageDao.listImagesByCategory(expected)).thenReturn(expectedImages);
 
         ModelAndView modelAndView = categoryController.edit(1l);
+
+        assertEquals(expectedImages, modelAndView.getModelMap().get("images"));
+
+        verify(mockImageDao).listImagesByCategory(expected);
+
+    }
+
+    @Test
+    public void postEditShouldProvideImageListToModelAndView(){
+
+        Category expected = new Category("bob", "jones", true, false);
+        Image expectedImage = new Image("image", "desc", "image/jpg", true, expected);
+        Image expectedImage2 = new Image("image", "desc", "image/jpg", true, expected);
+        Image expectedImage3 = new Image("image", "desc", "image/jpg", true, expected);
+        List<Image> expectedImages = new ArrayList<Image>();
+        expectedImages.add(expectedImage);
+        expectedImages.add(expectedImage2);
+        expectedImages.add(expectedImage3);
+
+        when(mockCategoryDao.read(Category.class, 1l)).thenReturn(expected);
+        when(mockImageDao.listImagesByCategory(expected)).thenReturn(expectedImages);
+
+        ModelAndView modelAndView = categoryController.edit(expected, 1l);
 
         assertEquals(expectedImages, modelAndView.getModelMap().get("images"));
 
@@ -115,8 +141,8 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void testProcessSubmitStoresNewCategory(){
-        Category expected = new Category("bob", "jones", true, false);
+    public void postEditShouldStoreNewCategory(){
+        Category expected = new Category("bob", "jones", true, false, image);
 
         when(mockCategoryDao.create(expected)).thenReturn(expected);
 
@@ -129,8 +155,8 @@ public class CategoryControllerTest {
     }
 
     @Test
-    public void testProcessSubmitUpdatesCategory(){
-        Category expected = new Category("bob", "jones", true, false);
+    public void postEditShouldUpdateCategory(){
+        Category expected = new Category("bob", "jones", true, false, image);
         expected.setId(1l);
 
         when(mockCategoryDao.update(expected)).thenReturn(expected);
@@ -142,5 +168,4 @@ public class CategoryControllerTest {
 
         verify(mockCategoryDao).update(expected);
     }
-
 }

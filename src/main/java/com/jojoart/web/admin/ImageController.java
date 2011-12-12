@@ -1,6 +1,9 @@
 package com.jojoart.web.admin;
 
+import com.jojoart.dao.CategoryDao;
+import com.jojoart.dao.CategoryDaoImpl;
 import com.jojoart.dao.ImageDao;
+import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class ImageController {
 
     private ImageDao imageDao;
+    private CategoryDao categoryDao;
 
     @RequestMapping(value = "/list", method = GET)
     public ModelAndView list() {
@@ -42,6 +46,7 @@ public class ImageController {
         }
 
         ModelAndView modelAndView = new ModelAndView("image/edit");
+        modelAndView.addObject("categories", categoryDao.list(Category.class));
         modelAndView.addObject("image", image);
 
         return modelAndView;
@@ -58,6 +63,7 @@ public class ImageController {
         }
 
         ModelAndView modelAndView = new ModelAndView("image/edit");
+        modelAndView.addObject("categories", categoryDao.list(Category.class));
         modelAndView.addObject("image", image);
         modelAndView.addObject("saved", true);
 
@@ -67,4 +73,9 @@ public class ImageController {
     public void setImageDao(ImageDao imageDao) {
         this.imageDao = imageDao;
     }
+
+    public void setCategoryDao(CategoryDao categoryDao) {
+        this.categoryDao = categoryDao;
+    }
+
 }
