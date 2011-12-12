@@ -26,18 +26,18 @@ import static org.mockito.Mockito.when;
  */
 
 @RunWith(MockitoJUnitRunner.class)
-public class ImageDataControllerTest {
+public class ImageControllerTest {
 
     @Mock
     private ImageDaoImpl imageDataDao;
     @Mock
     private Category mockCategory;
-    private ImageDataController imageDataController;
+    private ImageController imageController;
 
     @Before
     public void setup(){
-        imageDataController = new ImageDataController();
-        imageDataController.setImageDao(imageDataDao);
+        imageController = new ImageController();
+        imageController.setImageDao(imageDataDao);
     }
 
     @Test
@@ -50,7 +50,7 @@ public class ImageDataControllerTest {
 
         when(imageDataDao.list(Image.class)).thenReturn(images);
 
-        ModelAndView modelAndView = imageDataController.list();
+        ModelAndView modelAndView = imageController.list();
 
         assertEquals(images, modelAndView.getModelMap().get("images"));
 
@@ -65,7 +65,7 @@ public class ImageDataControllerTest {
 
         when(imageDataDao.read(Image.class, 1l)).thenReturn(expected);
 
-        ModelAndView modelAndView = imageDataController.edit(1l);
+        ModelAndView modelAndView = imageController.edit(1l);
 
         assertEquals(expected, modelAndView.getModelMap().get("image"));
 
@@ -79,7 +79,7 @@ public class ImageDataControllerTest {
 
         when(imageDataDao.create(expected)).thenReturn(expected);
 
-        ModelAndView modelAndView = imageDataController.edit(expected, 0);
+        ModelAndView modelAndView = imageController.edit(expected, 0);
 
         assertEquals(expected, modelAndView.getModelMap().get("image"));
         assertEquals(true, modelAndView.getModelMap().get("saved"));
@@ -94,7 +94,7 @@ public class ImageDataControllerTest {
 
         when(imageDataDao.update(expected)).thenReturn(expected);
 
-        ModelAndView modelAndView = imageDataController.edit(expected, 1l);
+        ModelAndView modelAndView = imageController.edit(expected, 1l);
 
         assertEquals(expected, modelAndView.getModelMap().get("image"));
         assertEquals(true, modelAndView.getModelMap().get("saved"));
