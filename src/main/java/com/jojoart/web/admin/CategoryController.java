@@ -44,6 +44,7 @@ public class CategoryController {
 
         ModelAndView modelAndView = new ModelAndView("category/edit");
         modelAndView.addObject("category", category);
+        modelAndView.addObject("images", imageDao.listImagesByCategory(category));
 
         return modelAndView;
     }

@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -72,13 +71,13 @@ public class CategoryControllerTest {
         expectedImages.add(expectedImage3);
 
         when(mockCategoryDao.read(Category.class, 1l)).thenReturn(expected);
-        when(mockImageDao.listImagesForCategory(expected)).thenReturn(expectedImages);
+        when(mockImageDao.listImagesByCategory(expected)).thenReturn(expectedImages);
 
         ModelAndView modelAndView = categoryController.edit(1l);
 
         assertEquals(expectedImages, modelAndView.getModelMap().get("images"));
 
-        verify(mockImageDao).listImagesForCategory(expected);
+        verify(mockImageDao).listImagesByCategory(expected);
 
     }
 

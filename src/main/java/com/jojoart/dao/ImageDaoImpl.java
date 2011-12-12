@@ -15,10 +15,13 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Repository
-@Transactional
 public class ImageDaoImpl extends GenericDaoImpl<Image, Long> implements ImageDao {
-    public List<Image> listImagesForCategory(Category category) {
+    public List<Image> listImagesByCategory(Category category) {
 
-        return null;
+        return getEntityManager()
+                .createQuery("SELECT a FROM Image a WHERE :category = a.category", Image.class)
+                .setParameter("category", category)
+                .getResultList();
+
     }
 }

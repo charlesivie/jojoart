@@ -1,9 +1,7 @@
 package com.jojoart.dao;
 
 import com.jojoart.domain.Category;
-import com.jojoart.domain.ImageType;
 import com.jojoart.domain.Image;
-import com.jojoart.domain.ImageVersion;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -26,81 +23,73 @@ import static org.junit.Assert.assertTrue;
  * Date: 07/12/2011
  * Time: 09:54
  * To change this template use File | Settings | File Templates.
- */     
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/spring/spring-config.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class ImageDaoImplIntegrationTest {
-   
-    @Autowired
-    ImageVersionDao imageVersionDao;
+
     @Autowired
     ImageDao imageDao;
     @Autowired
     CategoryDao categoryDao;
-    Image image;
-    Image image2;
     Category category;
+    Category category2;
 
     @Before
     public void setup(){
         category = categoryDao.create(new Category("Landscapes", "outdoors landscapes", true, true));
-        image = imageDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
-        image2 = imageDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
+        category2 = categoryDao.create(new Category("Landscapes 2", "outdoors landscapes 2", true, true));
     }
-    
+
     @Transactional
     @Test
     public void listImagesForCategoryShouldGetThreeImages(){
-        fail();
-    }
 
-    @Transactional
-    @Test
-    public void getAllImagesForGroupShouldGetThreeImages(){
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image3 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image4 = new Image("cow", "picture of a cow", "image/jpeg", true, category2);
+        Image image5 = new Image("cow", "picture of a cow", "image/jpeg", true, category2);
+        Image image6 = new Image("cow", "picture of a cow", "image/jpeg", true, category2);
+        imageDao.create(image);
+        imageDao.create(image2);
+        imageDao.create(image3);
+        imageDao.create(image4);
+        imageDao.create(image5);
+        imageDao.create(image6);
 
-        List<ImageVersion> expectedImages = new ArrayList<ImageVersion>();
-        for(int i=0;i<3;i++){
-            ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
-            imageVersionDao.create(imageVersion);
-            expectedImages.add(imageVersion);
-        }
-        for(int i=0;i<3;i++){
-            ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image2);
-            imageVersionDao.create(imageVersion);
-        }
+        assertEquals(3, imageDao.listImagesByCategory(category).size());
 
-        List<ImageVersion> actualImages = imageVersionDao.getAllImageVersions(image);
-
-        assertEquals(expectedImages, actualImages);
     }
 
     @Transactional
     @Test
     public void testInsert() {
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
-        imageVersionDao.create(imageVersion);
-        assertTrue(imageVersion.getId() > 0);
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        imageDao.create(image);
+        assertTrue(image.getId() > 0);
     }
 
     @Transactional
     @Test
     public void testUpdate() {
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
+        imageDao.create(image);
 
-        imageVersionDao.create(imageVersion);
+        long createdId = image.getId();
 
-        long createdId = imageVersion.getId();
+        image.setName("updated");
+        image.setDescription("updated");
+        image.setActive(false);
+        image.setMimeType("image/gif");
+        image.setCategory(category2);
 
-        imageVersion.setImage(image2);
-        imageVersion.setWidth(ImageType.THUMBNAIL.getWidth());
-        imageVersion.setImageBlob("updated".getBytes());
+        imageDao.update(image);
 
-        imageVersionDao.update(imageVersion);
-
-        ImageVersion actual = imageVersionDao.read(ImageVersion.class, createdId);
-        ImageVersion expected = new ImageVersion("updated".getBytes(), ImageType.THUMBNAIL.getWidth(), image2);
+        Image actual = imageDao.read(Image.class, createdId);
+        Image expected = new Image("updated", "updated", "image/gif", false, category2);
 
         assertEquals(expected, actual);
     }
@@ -108,34 +97,34 @@ public class ImageDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testDelete() {
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
-        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageVersionDao.create(imageVersion);
-        imageVersionDao.create(imageVersion2);
+        imageDao.create(image);
+        imageDao.create(image2);
 
-        long group2Id = imageVersion2.getId();
+        long group2Id = image2.getId();
 
-        imageVersionDao.delete(imageVersion2);
+        imageDao.delete(image2);
 
-        ImageVersion nullImageVersion = imageVersionDao.read(ImageVersion.class, group2Id);
+        Image nullImage = imageDao.read(Image.class, group2Id);
 
-        assertNull(nullImageVersion);
+        assertNull(nullImage);
     }
 
     @Transactional
     @Test
     public void testList() {
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
-        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageVersionDao.create(imageVersion);
-        imageVersionDao.create(imageVersion2);
+        imageDao.create(image);
+        imageDao.create(image2);
 
-        List<ImageVersion> imageVersions = imageVersionDao.list(ImageVersion.class);
+        List<Image> imageList = imageDao.list(Image.class);
 
-        assertTrue(imageVersions.size() == 2);
+        assertTrue(imageList.size() == 2);
 
     }
 
@@ -144,12 +133,12 @@ public class ImageDaoImplIntegrationTest {
     public void testListWithOffsetAndLimit() {
 
         for (int i = 0; i < 20; i++) {
-            imageVersionDao.create(new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image));
+            imageDao.create(new Image("cow", "picture of a cow", "image/jpeg", true, category));
         }
 
-        List<ImageVersion> imageVersions = imageVersionDao.list(ImageVersion.class, 10, 10);
+        List<Image> imageList = imageDao.list(Image.class, 10, 10);
 
-        assertTrue(imageVersions.size() == 10);
+        assertTrue(imageList.size() == 10);
 
     }
 
@@ -157,14 +146,14 @@ public class ImageDaoImplIntegrationTest {
     @Test
     public void testFind() {
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
-        imageVersionDao.create(imageVersion);
+        imageDao.create(image);
 
-        long createdId = imageVersion.getId();
+        long createdId = image.getId();
 
-        ImageVersion actual = imageVersionDao.read(ImageVersion.class, createdId);
-        ImageVersion expected = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getWidth(), image);
+        Image actual = imageDao.read(Image.class, createdId);
+        Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, category);
 
         assertEquals(expected, actual);
     }

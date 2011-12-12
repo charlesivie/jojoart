@@ -1,6 +1,9 @@
 package com.jojoart.dao;
 
+import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,4 +13,5 @@ import com.jojoart.domain.Image;
  * To change this template use File | Settings | File Templates.
  */
 public interface ImageDao extends GenericDao<Image, Long> {
+    List<Image> listImagesByCategory(Category category);
 }
