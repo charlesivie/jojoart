@@ -5,6 +5,7 @@ import com.jojoart.dao.CategoryDaoImpl;
 import com.jojoart.dao.ImageDao;
 import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,10 +71,13 @@ public class ImageController {
         return modelAndView;
     }
 
+
+    @Autowired
     public void setImageDao(ImageDao imageDao) {
         this.imageDao = imageDao;
     }
 
+    @Autowired
     public void setCategoryDao(CategoryDao categoryDao) {
         this.categoryDao = categoryDao;
     }

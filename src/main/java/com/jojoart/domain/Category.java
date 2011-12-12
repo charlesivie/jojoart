@@ -18,14 +18,14 @@ public class Category implements Serializable {
     private long id;
     private String name;
     private String description;
-    private boolean isActive;
+    private boolean active;
     private boolean isDefaultCategory;
     @Null @OneToOne private Image image;
 
     public Category(String name, String description, boolean isActive, boolean isDefaultCategory, Image image) {
         this.name = name;
         this.description = description;
-        this.isActive = isActive;
+        this.active = isActive;
         this.isDefaultCategory = isDefaultCategory;
         this.image = image;
     }
@@ -33,7 +33,7 @@ public class Category implements Serializable {
     public Category(String name, String description, boolean isActive, boolean isDefaultCategory) {
         this.name = name;
         this.description = description;
-        this.isActive = isActive;
+        this.active = isActive;
         this.isDefaultCategory = isDefaultCategory;
     }
 
@@ -73,11 +73,11 @@ public class Category implements Serializable {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        this.isActive = active;
+        this.active = active;
     }
 
     public boolean isDefaultCategory() {
@@ -95,7 +95,7 @@ public class Category implements Serializable {
 
         Category category = (Category) o;
 
-        return isActive == category.isActive
+        return active == category.active
                 && isDefaultCategory == category.isDefaultCategory
                 && !(description != null ? !description.equals(category.description) : category.description != null)
                 && !(image != null ? !image.equals(category.image) : category.image != null)
@@ -107,7 +107,7 @@ public class Category implements Serializable {
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (description != null ? description.hashCode() : 0);
-        result = 31 * result + (isActive ? 1 : 0);
+        result = 31 * result + (active ? 1 : 0);
         result = 31 * result + (isDefaultCategory ? 1 : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
