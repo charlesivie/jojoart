@@ -22,6 +22,10 @@ public class Category implements Serializable {
     private boolean isDefaultCategory;
     @Null @OneToOne private Image image;
 
+    public Category(long id) {
+        this.id = id;
+    }
+
     public Category(String name, String description, boolean isActive, boolean isDefaultCategory, Image image) {
         this.name = name;
         this.description = description;
@@ -111,5 +115,10 @@ public class Category implements Serializable {
         result = 31 * result + (isDefaultCategory ? 1 : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(this.id);
     }
 }
