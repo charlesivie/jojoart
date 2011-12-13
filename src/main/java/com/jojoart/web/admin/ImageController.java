@@ -1,12 +1,15 @@
 package com.jojoart.web.admin;
 
 import com.jojoart.dao.CategoryDao;
-import com.jojoart.dao.CategoryDaoImpl;
 import com.jojoart.dao.ImageDao;
 import com.jojoart.domain.Category;
+import com.jojoart.domain.CategoryEditor;
 import com.jojoart.domain.Image;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +74,10 @@ public class ImageController {
         return modelAndView;
     }
 
+    @InitBinder
+    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+        binder.registerCustomEditor(Category.class, new CategoryEditor());
+    }
 
     @Autowired
     public void setImageDao(ImageDao imageDao) {

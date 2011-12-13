@@ -13,12 +13,11 @@
 
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
 
-    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+    <!--<bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
         <property name="customEditors">
             <map>
-                <entry key="com.jojoart.domain.Category" value="com.jojoart.web.support.CategoryEditor"/>
+                <entry key="com.jojoart.domain.Category" value="com.jojoart.domain.CategoryEditor"/>
             </map>
         </property>
-    </bean>
-
+    </bean>-->
 </beans>

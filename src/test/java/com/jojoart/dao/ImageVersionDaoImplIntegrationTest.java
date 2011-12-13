@@ -30,7 +30,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"/spring/spring-config.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
-public class ImageVersionDaoImplIntegrationTest2 {
+public class ImageVersionDaoImplIntegrationTest {
    
     @Autowired
     ImageVersionDao imageVersionDao;
