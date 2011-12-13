@@ -21,7 +21,7 @@ import static org.junit.Assert.fail;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/spring/spring-config.xml"})
+@ContextConfiguration({"/spring/spring-config.xml", "/spring/spring-mvc-servlet.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class CategoryEditorIntegrationTest {
     

@@ -12,6 +12,5 @@ import org.springframework.transaction.annotation.Transactional;
  * To change this template use File | Settings | File Templates.
  */
 @Repository
-@Transactional
 public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements CategoryDao {
 }
