@@ -16,7 +16,7 @@ public class ImageEditorTest {
     ImageEditor imageEditor = new ImageEditor();
 
     @Test
-    public void setAsTextShouldGetCategory() {
+    public void setAsTextShouldSetImage() {
         imageEditor.setAsText(String.valueOf(1));
         Image image = (Image)imageEditor.getValue();
         assertEquals(1l, image.getId());
