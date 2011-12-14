@@ -17,6 +17,7 @@
         <property name="customEditors">
             <map>
                 <entry key="com.jojoart.domain.Category" value="com.jojoart.domain.CategoryEditor"/>
+                <entry key="com.jojoart.domain.Image" value="com.jojoart.domain.ImageEditor"/>
             </map>
         </property>
     </bean>

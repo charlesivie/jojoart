@@ -35,6 +35,10 @@ public class Image implements Serializable {
     public Image() {
     }
 
+    public Image(long id) {
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }
