@@ -74,10 +74,10 @@ public class ImageController {
         return modelAndView;
     }
 
-    @InitBinder
-    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
-        binder.registerCustomEditor(Category.class, new CategoryEditor());
-    }
+//    @InitBinder
+//    protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) {
+//        binder.registerCustomEditor(Category.class, new CategoryEditor());
+//    }
 
     @Autowired
     public void setImageDao(ImageDao imageDao) {
