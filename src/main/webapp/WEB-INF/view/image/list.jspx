@@ -23,7 +23,7 @@
                         ${image.name},
                         ${image.description},
                         ${image.mimeType},
-                        ${image.isActive}</a>
+                        ${image.active}</a>
                     ${image.category.name}
                 </li>
             </c:forEach>
