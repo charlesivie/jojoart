@@ -13,6 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+import static org.imgscalr.Scalr.resize;
+
 /**
  * Created by IntelliJ IDEA.
  * User: charlieivie
@@ -44,6 +46,7 @@ public class ImageServiceImpl implements ImageService {
             }
 
             for (ImageType imageType : ImageType.values()) {
+                //  TODO: resize();
                 imageVersionDao.create(new ImageVersion(multipartFile.getBytes(), imageType.getWidth(), image));
             }
         }
