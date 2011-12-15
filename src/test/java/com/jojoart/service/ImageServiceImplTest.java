@@ -19,15 +19,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.fail;
+import static org.apache.commons.io.FileUtils.openInputStream;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.*;
 
 /**
@@ -64,8 +64,6 @@ public class ImageServiceImplTest {
         testJpg = new ClassPathResource("image/sf.jpg").getFile();
         testGif = new ClassPathResource("image/sf.gif").getFile();
 
-        mockStatic(ImageIO.class);
-        mockStatic(Scalr.class);
 
         imageService = new ImageServiceImpl();
         imageService.setImageDao(mockImageDao);
@@ -74,6 +72,9 @@ public class ImageServiceImplTest {
 
     @Test
     public void resize_and_store_should_store_all_image_versions() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
 
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
@@ -86,22 +87,61 @@ public class ImageServiceImplTest {
     }
 
     @Test
-    public void getResizedBytes_should_resize_png() {
-        fail("not yet implemented");
+    public void getResizedBytes_should_resize_png() throws IOException {
+
+        File file = new ClassPathResource("image/sf.png").getFile();
+
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(file));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(file.getName());
+
+        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
+                     
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        BufferedImage resultImage = ImageIO.read(inputStream);
+
+        assertTrue(resultImage.getHeight() <= ImageType.THUMBNAIL.getMaxSize()
+                && resultImage.getWidth() <= ImageType.THUMBNAIL.getMaxSize());
     }
 
     @Test
-    public void getResizedBytes_should_resize_jpg() {
-        fail("not yet implemented");
+    public void getResizedBytes_should_resize_jpg() throws IOException {
+
+        File file = new ClassPathResource("image/sf.jpg").getFile();
+
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(file));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(file.getName());
+
+        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
+
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        BufferedImage resultImage = ImageIO.read(inputStream);
+
+        assertTrue(resultImage.getHeight() <= ImageType.THUMBNAIL.getMaxSize()
+                && resultImage.getWidth() <= ImageType.THUMBNAIL.getMaxSize());
     }
 
     @Test
-    public void getResizedBytes_should_resize_gif() {
-        fail("not yet implemented");
+    public void getResizedBytes_should_resize_gif() throws IOException {
+
+        File file = new ClassPathResource("image/sf.gif").getFile();
+
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(file));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(file.getName());
+
+        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.NORMAL.getMaxSize());
+
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        BufferedImage resultImage = ImageIO.read(inputStream);
+
+        assertTrue(resultImage.getHeight() <= ImageType.NORMAL.getMaxSize()
+                && resultImage.getWidth() <= ImageType.NORMAL.getMaxSize());
     }
 
     @Test
     public void resize_and_store_should_remove_all_old_image_versions() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
 
         Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
@@ -111,7 +151,6 @@ public class ImageServiceImplTest {
         List<ImageVersion> imageVersions = new ArrayList<ImageVersion>();
         imageVersions.add(imageVersion);
         imageVersions.add(imageVersion2);
-
 
         when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
         when(mockImageVersionDao.getAllImageVersions(image)).thenReturn(imageVersions);
@@ -125,6 +164,9 @@ public class ImageServiceImplTest {
 
     @Test
     public void resize_and_store_stores_new_image() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
@@ -134,6 +176,9 @@ public class ImageServiceImplTest {
 
     @Test
     public void resize_and_store_updates_existing_image() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
         expected.setId(1l);
 

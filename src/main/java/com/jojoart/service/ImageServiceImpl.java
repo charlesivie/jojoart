@@ -5,6 +5,7 @@ import com.jojoart.dao.ImageVersionDao;
 import com.jojoart.domain.Image;
 import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -49,18 +52,19 @@ public class ImageServiceImpl implements ImageService {
             }
 
             for (ImageType imageType : ImageType.values()) {
-                byte[] bytes = getResizedBytes(multipartFile, image.getName(), imageType.getMaxSize());
+                byte[] bytes = getResizedBytes(multipartFile, imageType.getMaxSize());
                 imageVersionDao.create(new ImageVersion(bytes, imageType.getMaxSize(), image));
             }
         }
     }
     
-    protected byte[] getResizedBytes(MultipartFile multipartFile, String name, int maxWidth) throws IOException {
+    protected byte[] getResizedBytes(MultipartFile multipartFile, int maxWidth) throws IOException {
         BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
         bufferedImage = resize(bufferedImage, maxWidth);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(bufferedImage, name+"_"+maxWidth, baos);
+        String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+        ImageIO.write(bufferedImage, extension, baos);
         return baos.toByteArray();
     }
 
