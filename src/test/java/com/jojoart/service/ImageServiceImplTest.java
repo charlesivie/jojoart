@@ -89,10 +89,8 @@ public class ImageServiceImplTest {
     @Test
     public void getResizedBytes_should_resize_png() throws IOException {
 
-        File file = new ClassPathResource("image/sf.png").getFile();
-
-        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(file));
-        when(mockMultipartFile.getOriginalFilename()).thenReturn(file.getName());
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testPng));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(testPng.getName());
 
         byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
                      
@@ -106,10 +104,8 @@ public class ImageServiceImplTest {
     @Test
     public void getResizedBytes_should_resize_jpg() throws IOException {
 
-        File file = new ClassPathResource("image/sf.jpg").getFile();
-
-        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(file));
-        when(mockMultipartFile.getOriginalFilename()).thenReturn(file.getName());
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testJpg));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(testJpg.getName());
 
         byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
 
@@ -123,10 +119,8 @@ public class ImageServiceImplTest {
     @Test
     public void getResizedBytes_should_resize_gif() throws IOException {
 
-        File file = new ClassPathResource("image/sf.gif").getFile();
-
-        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(file));
-        when(mockMultipartFile.getOriginalFilename()).thenReturn(file.getName());
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testGif));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(testGif.getName());
 
         byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.NORMAL.getMaxSize());
 
