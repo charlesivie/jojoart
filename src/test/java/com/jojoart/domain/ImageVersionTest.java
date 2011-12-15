@@ -28,12 +28,12 @@ public class ImageVersionTest {
 
         ImageVersion imageVersion1 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.NORMAL.getWidth(),
+                ImageType.NORMAL.getMaxSize(),
                 image);
 
         ImageVersion imageVersion2 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.NORMAL.getWidth(),
+                ImageType.NORMAL.getMaxSize(),
                 image);
 
         assertTrue(imageVersion1.equals(imageVersion2));
@@ -46,11 +46,11 @@ public class ImageVersionTest {
 
         ImageVersion imageVersion1 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.NORMAL.getWidth(),
+                ImageType.NORMAL.getMaxSize(),
                 image);
         ImageVersion imageVersion2 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.THUMBNAIL.getWidth(),
+                ImageType.THUMBNAIL.getMaxSize(),
                 image);
 
         assertFalse(imageVersion1.equals(imageVersion2));
@@ -62,12 +62,12 @@ public class ImageVersionTest {
 
         ImageVersion imageVersion1 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.NORMAL.getWidth(),
+                ImageType.NORMAL.getMaxSize(),
                 image);
 
         ImageVersion imageVersion2 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.NORMAL.getWidth(),
+                ImageType.NORMAL.getMaxSize(),
                 image);
 
         assertEquals(imageVersion1.hashCode(), imageVersion2.hashCode());
@@ -79,11 +79,11 @@ public class ImageVersionTest {
 
         ImageVersion imageVersion1 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.NORMAL.getWidth(),
+                ImageType.NORMAL.getMaxSize(),
                 image);
         ImageVersion imageVersion2 = new ImageVersion(
                 "something".getBytes(),
-                ImageType.THUMBNAIL.getWidth(),
+                ImageType.THUMBNAIL.getMaxSize(),
                 image);
 
         assertNotSame(imageVersion1.hashCode(), imageVersion2.hashCode());

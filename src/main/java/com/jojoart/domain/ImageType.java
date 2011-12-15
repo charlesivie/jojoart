@@ -18,7 +18,7 @@ public enum ImageType {
         width = i;
     }
 
-    public int getWidth() {
+    public int getMaxSize() {
         return width;
     }
 

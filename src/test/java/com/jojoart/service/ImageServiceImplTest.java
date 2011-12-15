@@ -6,19 +6,29 @@ import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
 import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
+import org.imgscalr.Scalr;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.powermock.api.mockito.PowerMockito.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,17 +38,35 @@ import static org.mockito.Mockito.verify;
  * To change this template use File | Settings | File Templates.
  */
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({ImageIO.class, Scalr.class})
 public class ImageServiceImplTest {
-    
+
     private ImageServiceImpl imageService;
-    @Mock ImageDao mockImageDao;
-    @Mock ImageVersionDao mockImageVersionDao;
-    @Mock Category mockCategory;
-    @Mock MultipartFile mockMultipartFile;
-    
+    @Mock
+    ImageDao mockImageDao;
+    @Mock
+    ImageVersionDao mockImageVersionDao;
+    @Mock
+    Category mockCategory;
+    @Mock
+    MultipartFile mockMultipartFile;
+    @Mock
+    InputStream mockInputStream;
+    @Mock
+    BufferedImage mockBufferedImage;
+    File testPng, testJpg, testGif;
+
     @Before
-    public void setup(){
+    public void setup() throws IOException {
+
+        testPng = new ClassPathResource("image/sf.png").getFile();
+        testJpg = new ClassPathResource("image/sf.jpg").getFile();
+        testGif = new ClassPathResource("image/sf.gif").getFile();
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
+
         imageService = new ImageServiceImpl();
         imageService.setImageDao(mockImageDao);
         imageService.setImageVersionDao(mockImageVersionDao);
@@ -49,19 +77,50 @@ public class ImageServiceImplTest {
 
         Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
+        when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
+        when(ImageIO.read(mockMultipartFile.getInputStream())).thenReturn(mockBufferedImage);
+
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
-        
+
         verify(mockImageVersionDao, times(ImageType.values().length)).create(Matchers.<ImageVersion>anyObject());
     }
 
     @Test
-    public void resize_and_store_should_remove_all_old_image_versions() {
+    public void getResizedBytes_should_resize_png() {
         fail("not yet implemented");
     }
 
     @Test
-    public void resize_and_store_should_resize_all_images() {
+    public void getResizedBytes_should_resize_jpg() {
         fail("not yet implemented");
+    }
+
+    @Test
+    public void getResizedBytes_should_resize_gif() {
+        fail("not yet implemented");
+    }
+
+    @Test
+    public void resize_and_store_should_remove_all_old_image_versions() throws IOException {
+
+        Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.THUMBNAIL.getMaxSize(), image);
+
+        List<ImageVersion> imageVersions = new ArrayList<ImageVersion>();
+        imageVersions.add(imageVersion);
+        imageVersions.add(imageVersion2);
+
+
+        when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
+        when(mockImageVersionDao.getAllImageVersions(image)).thenReturn(imageVersions);
+        when(ImageIO.read(mockMultipartFile.getInputStream())).thenReturn(mockBufferedImage);
+
+        imageService.resizeAndStoreImage(image, mockMultipartFile);
+
+        verify(mockImageVersionDao, times(ImageType.values().length)).delete(Matchers.<ImageVersion>anyObject());
+
     }
 
     @Test
@@ -82,5 +141,5 @@ public class ImageServiceImplTest {
 
         verify(mockImageDao).update(expected);
     }
-    
+
 }

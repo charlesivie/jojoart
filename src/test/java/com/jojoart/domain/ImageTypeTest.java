@@ -16,14 +16,14 @@ public class ImageTypeTest {
 
     @Test
     public void getWidthShouldReturnNormalSize(){
-        int actualWidth = ImageType.NORMAL.getWidth();
+        int actualWidth = ImageType.NORMAL.getMaxSize();
         int expected = 500;
         assertEquals(expected, actualWidth);
     }
 
     @Test
     public void getWidthShouldReturnThumbnailSize(){
-        int actualWidth = ImageType.THUMBNAIL.getWidth();
+        int actualWidth = ImageType.THUMBNAIL.getMaxSize();
         int expected = 100;
         assertEquals(expected, actualWidth);
     }

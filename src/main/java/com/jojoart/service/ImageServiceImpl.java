@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -46,10 +49,19 @@ public class ImageServiceImpl implements ImageService {
             }
 
             for (ImageType imageType : ImageType.values()) {
-                //  TODO: resize();
-                imageVersionDao.create(new ImageVersion(multipartFile.getBytes(), imageType.getWidth(), image));
+                byte[] bytes = getResizedBytes(multipartFile, image.getName(), imageType.getMaxSize());
+                imageVersionDao.create(new ImageVersion(bytes, imageType.getMaxSize(), image));
             }
         }
+    }
+    
+    protected byte[] getResizedBytes(MultipartFile multipartFile, String name, int maxWidth) throws IOException {
+        BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
+        bufferedImage = resize(bufferedImage, maxWidth);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(bufferedImage, name+"_"+maxWidth, baos);
+        return baos.toByteArray();
     }
 
     @Autowired

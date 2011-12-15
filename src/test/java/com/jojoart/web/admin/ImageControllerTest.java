@@ -62,8 +62,8 @@ public class ImageControllerTest {
     public void get_edit_should_load_image_versions() {
         Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
 
-        ImageVersion imageVersion = new ImageVersion("whatever".getBytes(), ImageType.NORMAL.getWidth(), image);
-        ImageVersion imageVersion2 = new ImageVersion("whatever".getBytes(), ImageType.THUMBNAIL.getWidth(), image);
+        ImageVersion imageVersion = new ImageVersion("whatever".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion2 = new ImageVersion("whatever".getBytes(), ImageType.THUMBNAIL.getMaxSize(), image);
 
         List<ImageVersion> imageVersions = new ArrayList<ImageVersion>();
         imageVersions.add(imageVersion);
