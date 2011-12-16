@@ -87,51 +87,6 @@ public class ImageServiceImplTest {
     }
 
     @Test
-    public void getResizedBytes_should_resize_png() throws IOException {
-
-        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testPng));
-        when(mockMultipartFile.getOriginalFilename()).thenReturn(testPng.getName());
-
-        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
-                     
-        InputStream inputStream = new ByteArrayInputStream(bytes);
-        BufferedImage resultImage = ImageIO.read(inputStream);
-
-        assertTrue(resultImage.getHeight() <= ImageType.THUMBNAIL.getMaxSize()
-                && resultImage.getWidth() <= ImageType.THUMBNAIL.getMaxSize());
-    }
-
-    @Test
-    public void getResizedBytes_should_resize_jpg() throws IOException {
-
-        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testJpg));
-        when(mockMultipartFile.getOriginalFilename()).thenReturn(testJpg.getName());
-
-        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
-
-        InputStream inputStream = new ByteArrayInputStream(bytes);
-        BufferedImage resultImage = ImageIO.read(inputStream);
-
-        assertTrue(resultImage.getHeight() <= ImageType.THUMBNAIL.getMaxSize()
-                && resultImage.getWidth() <= ImageType.THUMBNAIL.getMaxSize());
-    }
-
-    @Test
-    public void getResizedBytes_should_resize_gif() throws IOException {
-
-        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testGif));
-        when(mockMultipartFile.getOriginalFilename()).thenReturn(testGif.getName());
-
-        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.NORMAL.getMaxSize());
-
-        InputStream inputStream = new ByteArrayInputStream(bytes);
-        BufferedImage resultImage = ImageIO.read(inputStream);
-
-        assertTrue(resultImage.getHeight() <= ImageType.NORMAL.getMaxSize()
-                && resultImage.getWidth() <= ImageType.NORMAL.getMaxSize());
-    }
-
-    @Test
     public void resize_and_store_should_remove_all_old_image_versions() throws IOException {
 
         mockStatic(ImageIO.class);

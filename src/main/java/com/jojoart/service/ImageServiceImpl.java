@@ -14,8 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -59,12 +57,14 @@ public class ImageServiceImpl implements ImageService {
     }
     
     protected byte[] getResizedBytes(MultipartFile multipartFile, int maxWidth) throws IOException {
+
         BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
         bufferedImage = resize(bufferedImage, maxWidth);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
         ImageIO.write(bufferedImage, extension, baos);
+
         return baos.toByteArray();
     }
 
