@@ -23,8 +23,6 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.io.FileUtils.openInputStream;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -43,27 +41,19 @@ import static org.powermock.api.mockito.PowerMockito.*;
 public class ImageServiceImplTest {
 
     private ImageServiceImpl imageService;
-    @Mock
-    ImageDao mockImageDao;
-    @Mock
-    ImageVersionDao mockImageVersionDao;
-    @Mock
-    Category mockCategory;
-    @Mock
-    MultipartFile mockMultipartFile;
-    @Mock
-    InputStream mockInputStream;
-    @Mock
-    BufferedImage mockBufferedImage;
+    @Mock private ImageDao mockImageDao;
+    @Mock private ImageVersionDao mockImageVersionDao;
+    @Mock private Category mockCategory;
+    @Mock private MultipartFile mockMultipartFile;
+    @Mock private InputStream mockInputStream;
+    @Mock private BufferedImage mockBufferedImage;
     File testPng, testJpg, testGif;
 
     @Before
     public void setup() throws IOException {
-
         testPng = new ClassPathResource("image/sf.png").getFile();
         testJpg = new ClassPathResource("image/sf.jpg").getFile();
         testGif = new ClassPathResource("image/sf.gif").getFile();
-
 
         imageService = new ImageServiceImpl();
         imageService.setImageDao(mockImageDao);
@@ -76,7 +66,7 @@ public class ImageServiceImplTest {
         mockStatic(ImageIO.class);
         mockStatic(Scalr.class);
 
-        Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+        Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
 
         when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
         when(ImageIO.read(mockMultipartFile.getInputStream())).thenReturn(mockBufferedImage);
@@ -92,7 +82,7 @@ public class ImageServiceImplTest {
         mockStatic(ImageIO.class);
         mockStatic(Scalr.class);
 
-        Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
 
         ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
         ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.THUMBNAIL.getMaxSize(), image);
@@ -116,7 +106,7 @@ public class ImageServiceImplTest {
 
         mockStatic(ImageIO.class);
         mockStatic(Scalr.class);
-        Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+        Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
 
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
 
@@ -128,7 +118,7 @@ public class ImageServiceImplTest {
 
         mockStatic(ImageIO.class);
         mockStatic(Scalr.class);
-        Image expected = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
+        Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
         expected.setId(1l);
 
         imageService.resizeAndStoreImage(expected, mockMultipartFile);

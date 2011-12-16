@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class CategoryEditorTest {
 
-    CategoryEditor categoryEditor = new CategoryEditor();
+    private CategoryEditor categoryEditor = new CategoryEditor();
     
     @Test
     public void setAsTextShouldGetCategory() {

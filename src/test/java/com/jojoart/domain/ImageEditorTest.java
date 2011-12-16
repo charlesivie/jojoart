@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 
 public class ImageEditorTest {
 
-    ImageEditor imageEditor = new ImageEditor();
+    private ImageEditor imageEditor = new ImageEditor();
 
     @Test
     public void setAsTextShouldSetImage() {
