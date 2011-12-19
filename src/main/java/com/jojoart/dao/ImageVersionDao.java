@@ -1,6 +1,7 @@
 package com.jojoart.dao;
 
 import com.jojoart.domain.Image;
+import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
 
 import java.util.List;
@@ -15,5 +16,6 @@ import java.util.List;
 public interface ImageVersionDao extends GenericDao<ImageVersion, Long>{
 
     List<ImageVersion> getAllImageVersions(Image image);
+    ImageVersion findByTypeAndImage(ImageType imageType, Image image);
 
 }

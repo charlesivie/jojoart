@@ -55,12 +55,12 @@ public class ImageVersionDaoImplIntegrationTest {
 
         List<ImageVersion> expectedImages = new ArrayList<ImageVersion>();
         for(int i=0;i<3;i++){
-            ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+            ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
             imageVersionDao.create(imageVersion);
             expectedImages.add(imageVersion);
         }
         for(int i=0;i<3;i++){
-            ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image2);
+            ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image2);
             imageVersionDao.create(imageVersion);
         }
 
@@ -72,7 +72,7 @@ public class ImageVersionDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testInsert() {
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
         imageVersionDao.create(imageVersion);
         assertTrue(imageVersion.getId() > 0);
     }
@@ -81,20 +81,20 @@ public class ImageVersionDaoImplIntegrationTest {
     @Test
     public void testUpdate() {
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
 
         imageVersionDao.create(imageVersion);
 
         long createdId = imageVersion.getId();
 
         imageVersion.setImage(image2);
-        imageVersion.setWidth(ImageType.THUMBNAIL.getMaxSize());
+        imageVersion.setImageType(ImageType.THUMBNAIL.toString());
         imageVersion.setImageBlob("updated".getBytes());
 
         imageVersionDao.update(imageVersion);
 
         ImageVersion actual = imageVersionDao.read(ImageVersion.class, createdId);
-        ImageVersion expected = new ImageVersion("updated".getBytes(), ImageType.THUMBNAIL.getMaxSize(), image2);
+        ImageVersion expected = new ImageVersion("updated".getBytes(), ImageType.THUMBNAIL.toString(), image2);
 
         assertEquals(expected, actual);
     }
@@ -102,8 +102,8 @@ public class ImageVersionDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testDelete() {
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
-        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
 
         imageVersionDao.create(imageVersion);
         imageVersionDao.create(imageVersion2);
@@ -121,8 +121,8 @@ public class ImageVersionDaoImplIntegrationTest {
     @Test
     public void testList() {
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
-        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
 
         imageVersionDao.create(imageVersion);
         imageVersionDao.create(imageVersion2);
@@ -138,7 +138,7 @@ public class ImageVersionDaoImplIntegrationTest {
     public void testListWithOffsetAndLimit() {
 
         for (int i = 0; i < 20; i++) {
-            imageVersionDao.create(new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image));
+            imageVersionDao.create(new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image));
         }
 
         List<ImageVersion> imageVersions = imageVersionDao.list(ImageVersion.class, 10, 10);
@@ -151,16 +151,46 @@ public class ImageVersionDaoImplIntegrationTest {
     @Test
     public void testFind() {
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
 
         imageVersionDao.create(imageVersion);
 
         long createdId = imageVersion.getId();
 
         ImageVersion actual = imageVersionDao.read(ImageVersion.class, createdId);
-        ImageVersion expected = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
+        ImageVersion expected = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
 
         assertEquals(expected, actual);
+    }
+
+    @Transactional
+    @Test
+    public void findByTypeAndImage_should_return_imageType() {
+
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+
+        imageVersionDao.create(imageVersion);
+
+        ImageVersion actual = imageVersionDao.findByTypeAndImage(ImageType.NORMAL, image);
+        ImageVersion expected = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+
+        assertEquals(expected, actual);
+    }
+    
+    @Transactional
+    @Test
+    public void findByTypeAndImage_should_return_correct_image() {
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+
+        imageVersionDao.create(imageVersion);
+
+        String type = "NORMAL";
+        
+        ImageVersion actual = imageVersionDao.findByTypeAndImage(ImageType.valueOf(type), new Image(image.getId()));
+        ImageVersion expected = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+
+        assertEquals(expected, actual);
+        
     }
 
 }

@@ -18,13 +18,13 @@ public class ImageVersion implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private byte[] imageBlob;
-    private int width;
+    private String imageType;
     
     @ManyToOne private Image image;
 
-    public ImageVersion(byte[] imageBlob, int width, Image image) {
+    public ImageVersion(byte[] imageBlob, String imageType, Image image) {
         this.imageBlob = imageBlob;
-        this.width = width;
+        this.imageType = imageType;
         this.image = image;
     }
 
@@ -47,12 +47,8 @@ public class ImageVersion implements Serializable {
         this.imageBlob = imageBlob;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
+    public void setImageType(String imageType) {
+        this.imageType = imageType;
     }
 
     public Image getImage() {
@@ -70,16 +66,16 @@ public class ImageVersion implements Serializable {
 
         ImageVersion that = (ImageVersion) o;
 
-        return width == that.width
+        return !(image != null ? !image.equals(that.image) : that.image != null)
                 && Arrays.equals(imageBlob, that.imageBlob)
-                && !(image != null ? !image.equals(that.image) : that.image != null);
+                && !(imageType != null ? !imageType.equals(that.imageType) : that.imageType != null);
 
     }
 
     @Override
     public int hashCode() {
         int result = imageBlob != null ? Arrays.hashCode(imageBlob) : 0;
-        result = 31 * result + width;
+        result = 31 * result + (imageType != null ? imageType.hashCode() : 0);
         result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }

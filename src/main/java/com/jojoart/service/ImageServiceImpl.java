@@ -51,7 +51,7 @@ public class ImageServiceImpl implements ImageService {
 
             for (ImageType imageType : ImageType.values()) {
                 byte[] bytes = getResizedBytes(multipartFile, imageType.getMaxSize());
-                imageVersionDao.create(new ImageVersion(bytes, imageType.getMaxSize(), image));
+                imageVersionDao.create(new ImageVersion(bytes, imageType.toString(), image));
             }
         }
     }

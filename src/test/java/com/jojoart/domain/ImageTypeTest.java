@@ -27,4 +27,5 @@ public class ImageTypeTest {
         int expected = 100;
         assertEquals(expected, actualWidth);
     }
+
 }

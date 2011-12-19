@@ -84,8 +84,8 @@ public class ImageServiceImplTest {
 
         Image image = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
 
-        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.getMaxSize(), image);
-        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.THUMBNAIL.getMaxSize(), image);
+        ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
+        ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.THUMBNAIL.toString(), image);
 
         List<ImageVersion> imageVersions = new ArrayList<ImageVersion>();
         imageVersions.add(imageVersion);

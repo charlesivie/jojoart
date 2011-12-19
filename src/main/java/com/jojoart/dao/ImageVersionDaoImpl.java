@@ -1,6 +1,7 @@
 package com.jojoart.dao;
 
 import com.jojoart.domain.Image;
+import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +24,15 @@ public class ImageVersionDaoImpl extends GenericDaoImpl<ImageVersion, Long> impl
                 .setParameter("image", image)
                 .getResultList();
 
+    }
+    
+    public ImageVersion findByTypeAndImage(ImageType imageType, Image image){
+        return getEntityManager()
+                .createQuery("SELECT a FROM ImageVersion a WHERE :image = a.image AND :imageType = a.imageType"
+                        , ImageVersion.class)
+                .setParameter("image", image)
+                .setParameter("imageType", imageType.toString())
+                .getSingleResult();
     }
 
 }

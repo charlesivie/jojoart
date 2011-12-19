@@ -12,14 +12,14 @@ public enum ImageType {
     NORMAL(500),
     THUMBNAIL(100);
 
-    private int width;
+    private int maxSize;
 
-    private ImageType(int i) {
-        width = i;
+    private ImageType(int maxSize) {
+        this.maxSize = maxSize;
     }
 
     public int getMaxSize() {
-        return width;
+        return maxSize;
     }
 
 }
