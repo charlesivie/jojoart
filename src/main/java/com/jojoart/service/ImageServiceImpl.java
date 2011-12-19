@@ -43,6 +43,7 @@ public class ImageServiceImpl implements ImageService {
 
         if (multipartFile != null) {
 
+            BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
             List<ImageVersion> imageVersions =  imageVersionDao.getAllImageVersions(image);
 
             for (ImageVersion imageVersion:imageVersions){
@@ -50,20 +51,17 @@ public class ImageServiceImpl implements ImageService {
             }
 
             for (ImageType imageType : ImageType.values()) {
-                byte[] bytes = getResizedBytes(multipartFile, imageType.getMaxSize());
+                byte[] bytes = getResizedBytes(bufferedImage, multipartFile, imageType.getMaxSize());
                 imageVersionDao.create(new ImageVersion(bytes, imageType.toString(), image));
             }
         }
     }
     
-    protected byte[] getResizedBytes(MultipartFile multipartFile, int maxWidth) throws IOException {
-
-        BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
-        bufferedImage = resize(bufferedImage, maxWidth);
+    protected byte[] getResizedBytes(BufferedImage bufferedImage, MultipartFile multipartFile, int maxSize) throws IOException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        ImageIO.write(bufferedImage, extension, baos);
+        ImageIO.write(resize(bufferedImage, maxSize), extension, baos);
 
         return baos.toByteArray();
     }

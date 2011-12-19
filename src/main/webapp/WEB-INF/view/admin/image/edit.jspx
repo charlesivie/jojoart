@@ -18,7 +18,7 @@
     </div>
 
     <div>
-        <form:form commandName="image" method="POST">
+        <form:form commandName="image" method="POST" enctype="multipart/form-data">
             <form:hidden path="id"/>
             <ul>
                 <li><form:label path="name">Name</form:label><form:input path="name" label="name"/></li>
@@ -32,9 +32,16 @@
                         <form:options items="${categories}" itemValue="id" itemLabel="name"/>
                     </form:select>
                 </li>
+                <li>
+                    <form:input type="file" name="file" id="file" path=""/>
+                </li>
             </ul>
             <input type="submit" value="save"/>
         </form:form>
+    </div>
+
+    <div>
+        <img src="/image/${image.id}/thumbnail" alt="${image.name}" />
     </div>
 
     </body>

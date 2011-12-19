@@ -35,7 +35,9 @@ public class ImageStreamController {
             @PathVariable Long imageId,
             @PathVariable String type) throws IOException {
 
-        ImageVersion imageVersion = imageVersionDao.findByTypeAndImage(ImageType.valueOf(type), new Image(imageId));
+        ImageVersion imageVersion = imageVersionDao.findByTypeAndImage(
+                ImageType.valueOf(type.toUpperCase()),
+                new Image(imageId));
 
         response.setContentType(imageVersion.getImage().getMimeType());
         response.setContentLength(imageVersion.getImageBlob().length);

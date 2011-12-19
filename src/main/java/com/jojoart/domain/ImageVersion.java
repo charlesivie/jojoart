@@ -17,7 +17,7 @@ public class ImageVersion implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private byte[] imageBlob;
+    @Lob private byte[] imageBlob;
     private String imageType;
     
     @ManyToOne private Image image;

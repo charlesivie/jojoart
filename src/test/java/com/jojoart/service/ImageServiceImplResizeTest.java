@@ -53,7 +53,9 @@ public class ImageServiceImplResizeTest {
         when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testPng));
         when(mockMultipartFile.getOriginalFilename()).thenReturn(testPng.getName());
 
-        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
+        BufferedImage bufferedImage = ImageIO.read(mockMultipartFile.getInputStream());
+
+        byte[] bytes = imageService.getResizedBytes(bufferedImage, mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
 
         InputStream inputStream = new ByteArrayInputStream(bytes);
         BufferedImage resultImage = ImageIO.read(inputStream);
@@ -67,8 +69,9 @@ public class ImageServiceImplResizeTest {
 
         when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testJpg));
         when(mockMultipartFile.getOriginalFilename()).thenReturn(testJpg.getName());
+        BufferedImage bufferedImage = ImageIO.read(mockMultipartFile.getInputStream());
 
-        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
+        byte[] bytes = imageService.getResizedBytes(bufferedImage, mockMultipartFile, ImageType.THUMBNAIL.getMaxSize());
 
         InputStream inputStream = new ByteArrayInputStream(bytes);
         BufferedImage resultImage = ImageIO.read(inputStream);
@@ -82,8 +85,9 @@ public class ImageServiceImplResizeTest {
 
         when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testGif));
         when(mockMultipartFile.getOriginalFilename()).thenReturn(testGif.getName());
+        BufferedImage bufferedImage = ImageIO.read(mockMultipartFile.getInputStream());
 
-        byte[] bytes = imageService.getResizedBytes(mockMultipartFile, ImageType.NORMAL.getMaxSize());
+        byte[] bytes = imageService.getResizedBytes(bufferedImage, mockMultipartFile, ImageType.NORMAL.getMaxSize());
 
         InputStream inputStream = new ByteArrayInputStream(bytes);
         BufferedImage resultImage = ImageIO.read(inputStream);

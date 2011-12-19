@@ -30,7 +30,7 @@
         </ul>
     </div>
     <div>
-        <a href="/art/category/0">insert new category</a>
+        <a href="/art/admin/category/0">insert new category</a>
     </div>
 
     </body>

@@ -19,7 +19,7 @@ public class Image implements Serializable {
     private String name;
     private String description;
     private String mimeType;
-    private boolean isActive;
+    private boolean active;
 
     @OneToOne private Category category;
 
@@ -28,7 +28,7 @@ public class Image implements Serializable {
         this.name = name;
         this.description = description;
         this.mimeType = mimeType;
-        this.isActive = active;
+        this.active = active;
         this.category = category;
     }
 
@@ -72,11 +72,11 @@ public class Image implements Serializable {
     }
 
     public boolean isActive() {
-        return isActive;
+        return active;
     }
 
     public void setActive(boolean active) {
-        isActive = active;
+        active = active;
     }
 
     public Category getCategory() {
@@ -94,7 +94,7 @@ public class Image implements Serializable {
 
         Image image = (Image) o;
 
-        return isActive == image.isActive &&
+        return active == image.active &&
                 !(category != null ? !category.equals(image.category) : image.category != null)
                 && !(description != null ? !description.equals(image.description) : image.description != null)
                 && !(mimeType != null ? !mimeType.equals(image.mimeType) : image.mimeType != null)
@@ -107,7 +107,7 @@ public class Image implements Serializable {
         int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (mimeType != null ? mimeType.hashCode() : 0);
-        result = 31 * result + (isActive ? 1 : 0);
+        result = 31 * result + (active ? 1 : 0);
         result = 31 * result + (category != null ? category.hashCode() : 0);
         return result;
     }
