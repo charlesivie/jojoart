@@ -32,6 +32,7 @@ import java.util.List;
  */
 
 @Controller
+@RequestMapping("/admin/image")
 public class ImageController {
 
     private ImageDao imageDao;
@@ -43,7 +44,7 @@ public class ImageController {
     @RequestMapping(value = "/list", method = GET)
     public ModelAndView list() {
 
-        ModelAndView modelAndView = new ModelAndView("/image/list");
+        ModelAndView modelAndView = new ModelAndView("admin/image/list");
         modelAndView.addObject("images", imageDao.list(Image.class));
 
         return modelAndView;
@@ -60,7 +61,7 @@ public class ImageController {
             imageVersions = imageVersionDao.getAllImageVersions(image);
         }
 
-        ModelAndView modelAndView = new ModelAndView("image/edit");
+        ModelAndView modelAndView = new ModelAndView("admin/image/edit");
         modelAndView.addObject("categories", categoryDao.list(Category.class));
         modelAndView.addObject("image", image);
         modelAndView.addObject("imageVersions", imageVersions);
@@ -76,7 +77,7 @@ public class ImageController {
 
         imageService.resizeAndStoreImage(image, file);
 
-        ModelAndView modelAndView = new ModelAndView("image/edit");
+        ModelAndView modelAndView = new ModelAndView("admin/image/edit");
         modelAndView.addObject("categories", categoryDao.list(Category.class));
         modelAndView.addObject("image", image);
         modelAndView.addObject("saved", true);

@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
  * To change this template use File | Settings | File Templates.
  */
 @Controller
+@RequestMapping("/admin/category")
 public class CategoryController {
 
     private CategoryDao categoryDao;
@@ -27,7 +28,7 @@ public class CategoryController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public ModelAndView list() {
 
-        ModelAndView modelAndView = new ModelAndView("/category/list");
+        ModelAndView modelAndView = new ModelAndView("admin/category/list");
         modelAndView.addObject("categories", categoryDao.list(Category.class));
 
         return modelAndView;
@@ -37,7 +38,7 @@ public class CategoryController {
     public ModelAndView edit(@PathVariable long id) {
 
         Category category = new Category();
-        ModelAndView modelAndView = new ModelAndView("category/edit");
+        ModelAndView modelAndView = new ModelAndView("admin/category/edit");
 
         if (id > 0) {
             category = categoryDao.read(Category.class, id);
@@ -58,7 +59,7 @@ public class CategoryController {
             categoryDao.create(category);
         }
 
-        ModelAndView modelAndView = new ModelAndView("category/edit");
+        ModelAndView modelAndView = new ModelAndView("admin/category/edit");
 
         modelAndView.addObject("images", imageDao.listImagesByCategory(category));
         modelAndView.addObject("category", category);

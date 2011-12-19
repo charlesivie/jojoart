@@ -24,11 +24,12 @@ import java.io.IOException;
  */
 
 @Controller
+@RequestMapping(value = "/image")
 public class ImageStreamController {
 
     ImageVersionDao imageVersionDao;
 
-    @RequestMapping(value = "/image/{imageId}/{type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{imageId}/{type}", method = RequestMethod.GET)
     public void stream(
             final HttpServletResponse response,
             @PathVariable Long imageId,
