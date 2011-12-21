@@ -5,10 +5,6 @@
     <persistence-unit name="NewPersistenceUnit" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
         <properties>
-            <property name="hibernate.connection.url" value="${db.connection.url}"/>
-            <property name="hibernate.connection.driver_class" value="${db.connection.driver_class}"/>
-            <property name="hibernate.connection.username" value="${db.connection.username}"/>
-            <property name="hibernate.connection.password" value="${db.connection.password}"/>
             <property name="hibernate.archive.autodetection" value="${db.archive.autodetection}"/>
             <property name="hibernate.show_sql" value="${db.show_sql}"/>
             <property name="hibernate.format_sql" value="${db.format_sql}"/>

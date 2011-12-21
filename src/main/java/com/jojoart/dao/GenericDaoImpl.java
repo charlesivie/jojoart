@@ -25,6 +25,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
         return t;
     }
 
+    @Transactional
     public T read(Class<T> clazz, PK id) {
         return this.entityManager.find(clazz, id);
     }
@@ -35,6 +36,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
         return t;
     }
 
+    @Transactional
     public void delete(T t) {
         t = this.entityManager.merge(t);
         this.entityManager.remove(t);
@@ -44,6 +46,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
         this.entityManager.flush();
     }
 
+    @Transactional
     public List<T> list(Class<T> clazz, int offset, int limit) {
         StringBuilder qry = new StringBuilder();
         qry.append("from ");
@@ -54,6 +57,7 @@ public abstract class GenericDaoImpl<T, PK extends Serializable> implements Gene
                 .getResultList();
     }
 
+    @Transactional
     public List<T> list(Class<T> clazz) {
         StringBuilder qry = new StringBuilder();
         qry.append("from ");

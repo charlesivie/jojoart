@@ -4,6 +4,7 @@ import com.jojoart.domain.Image;
 import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Repository
 public class ImageVersionDaoImpl extends GenericDaoImpl<ImageVersion, Long> implements ImageVersionDao {
 
+    @Transactional
     public List<ImageVersion> getAllImageVersions(Image image) {
 
         return getEntityManager()
@@ -25,7 +27,8 @@ public class ImageVersionDaoImpl extends GenericDaoImpl<ImageVersion, Long> impl
                 .getResultList();
 
     }
-    
+
+    @Transactional
     public ImageVersion findByTypeAndImage(ImageType imageType, Image image){
         return getEntityManager()
                 .createQuery("SELECT a FROM ImageVersion a WHERE :image = a.image AND :imageType = a.imageType"

@@ -14,7 +14,7 @@
     <body>
 
     <div>
-        <h2>${category.id>0?'Edit ':'Insert New '} Image</h2>
+        <h2>${image.id>0?'Edit ':'Insert New '} Image</h2>
     </div>
 
     <div>
@@ -41,7 +41,7 @@
     </div>
 
     <div>
-        <img src="/image/${image.id}/thumbnail" alt="${image.name}" />
+        <img src="/art/image/${image.id}/thumbnail" alt="${image.name}" />
     </div>
 
     </body>
