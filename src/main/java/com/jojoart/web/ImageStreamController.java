@@ -4,7 +4,6 @@ import com.jojoart.dao.ImageVersionDao;
 import com.jojoart.domain.Image;
 import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
-import com.sun.xml.internal.ws.api.server.ResourceInjector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.Response;
 import java.io.IOException;
 
 /**
