@@ -20,7 +20,7 @@
     </bean>
 
     <bean class="java.net.URI" id="dbUrl">
-        <constructor-arg value="${db.var}"/>
+        <constructor-arg value="${env.DATABASE_URL}"/>
     </bean>
 
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
