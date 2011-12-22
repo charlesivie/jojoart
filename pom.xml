@@ -221,9 +221,6 @@
 
         <profile>
             <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <filters>
                     <filter>src/main/filters/dev.properties</filter>
@@ -253,6 +250,9 @@
 
         <profile>
             <id>live</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <filters>
                     <filter>src/main/filters/live.properties</filter>
