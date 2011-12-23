@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration({"/spring/spring-config.xml"})
+@ContextConfiguration({"/META-INF/spring/applicationContext.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class ImageDaoImplIntegrationTest {
 
