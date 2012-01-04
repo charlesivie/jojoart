@@ -96,4 +96,22 @@ public class ImageServiceImplResizeTest {
                 && resultImage.getWidth() <= ImageType.NORMAL.getMaxSize());
     }
 
+    @Test
+    public void getResizedBytes_should_not_resize_up() throws IOException {
+
+        when(mockMultipartFile.getInputStream()).thenReturn(openInputStream(testGif));
+        when(mockMultipartFile.getOriginalFilename()).thenReturn(testGif.getName());
+
+        BufferedImage originalImage = ImageIO.read(mockMultipartFile.getInputStream());
+
+        byte[] bytes = imageService.getResizedBytes(originalImage, mockMultipartFile, originalImage.getWidth()+100);
+
+        InputStream inputStream = new ByteArrayInputStream(bytes);
+        BufferedImage resultImage = ImageIO.read(inputStream);
+
+        assertTrue(originalImage.getHeight() == resultImage.getHeight()
+                && originalImage.getWidth() == resultImage.getWidth());
+
+    }
+
 }

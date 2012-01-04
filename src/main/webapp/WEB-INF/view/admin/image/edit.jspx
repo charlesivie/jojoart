@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0"
-          xmlns:form="http://www.springframework.org/tags/form">
+          xmlns:form="http://www.springframework.org/tags/form" xmlns:c="http://java.sun.com/jsp/jstl/core">
     <jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"/>
 
     <html>
@@ -40,9 +40,11 @@
         </form:form>
     </div>
 
-    <div>
-        <img src="/art/image/${image.id}/thumbnail" alt="${image.name}" />
-    </div>
+    <c:if test="${image.id > 0}">
+        <div>
+            <img src="/art/image/${image.id}/thumbnail" alt="${image.name}"/>
+        </div>
+    </c:if>
 
     </body>
     </html>

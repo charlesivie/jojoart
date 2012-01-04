@@ -61,7 +61,12 @@ public class ImageServiceImpl implements ImageService {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
-        ImageIO.write(resize(bufferedImage, maxSize), extension, baos);
+
+        if (bufferedImage.getWidth() > maxSize || bufferedImage.getHeight() > maxSize) {
+            ImageIO.write(resize(bufferedImage, maxSize), extension, baos);
+        } else {
+            ImageIO.write(bufferedImage, extension, baos);
+        }
 
         return baos.toByteArray();
     }

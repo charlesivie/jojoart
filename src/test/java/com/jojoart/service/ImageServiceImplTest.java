@@ -23,6 +23,8 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.apache.commons.io.FileUtils.openInputStream;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -108,6 +110,8 @@ public class ImageServiceImplTest {
         mockStatic(Scalr.class);
         Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
 
+        when(ImageIO.read(mockMultipartFile.getInputStream())).thenReturn(mockBufferedImage);
+
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
 
         verify(mockImageDao).create(expected);
@@ -120,6 +124,8 @@ public class ImageServiceImplTest {
         mockStatic(Scalr.class);
         Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
         expected.setId(1l);
+
+        when(ImageIO.read(mockMultipartFile.getInputStream())).thenReturn(mockBufferedImage);
 
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
 
