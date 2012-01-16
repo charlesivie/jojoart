@@ -8,7 +8,8 @@ package com.jojoart.domain;
  * To change this template use File | Settings | File Templates.
  */
 public enum ImageType {
-    
+
+    LARGE(1000),
     NORMAL(500),
     THUMBNAIL(100);
 
