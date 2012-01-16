@@ -4,7 +4,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"/>
 
     <ul class="leftnav">
-        <c:forEach items="categories">
+        <c:forEach items="${categories}" var="category">
             <li class="${category.name}">
                 <a href="/art/index.html?categoryId=${category.id}">${category.description}</a>
             </li>
