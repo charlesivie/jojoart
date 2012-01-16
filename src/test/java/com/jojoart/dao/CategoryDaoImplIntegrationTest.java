@@ -185,5 +185,24 @@ public class CategoryDaoImplIntegrationTest {
 
     }
 
+    @Test
+    @Transactional
+    public void findDefaultCategory_should_return_one_default_category(){
+
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category1 = new Category("Portraits", "portraits", true, true, null);
+        Category category2 = new Category("Life", "life", true, false, null);
+        Category category3 = new Category("Abstract", "abstract", true, false, null);
+
+        categoryDao.create(category);
+        categoryDao.create(category1);
+        categoryDao.create(category2);
+        categoryDao.create(category3);
+
+        Category actual = categoryDao.findDefaultCategory();
+
+        assertEquals(category, actual);
+    }
+
 
 }

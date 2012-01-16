@@ -64,16 +64,16 @@
                     <div id="thumbs" class="navigation">
                         <a class="pageLink prev" style="visibility: hidden;" href="#" title="Previous Page"></a>
 
-                        <jsp:include page="/art/images/${categoryId}"/>
+                        <jsp:include page="/art/images/${categoryId!=null?categoryId:0}"/>
 
                         <a class="pageLink next" style="visibility: hidden;" href="#" title="Next Page"></a></div>
                 </div>
                 <!-- End Gallery Html Containers -->
             </div>
-            <div class="clear">&nbsp;</div>
+            <div class="clear"></div>
         </div>
     </div>
-    <div id="footer">&copy; </div>
+    <div id="footer"></div>
     <script type="text/javascript" src="/js/jojoart_footer.js"></script>
     </body>
     </html>

@@ -23,4 +23,11 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements C
                 .setParameter("active", true)
                 .getResultList();
     }
+
+    public Category findDefaultCategory() {
+        return (Category) getEntityManager()
+                .createQuery("SELECT a FROM Category a WHERE a.isDefaultCategory = true")
+                .setMaxResults(1)
+                .getSingleResult();
+    }
 }

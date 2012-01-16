@@ -41,6 +41,10 @@ public class PortfolioController {
     @RequestMapping(value = "/images/{categoryId}")
     public ModelAndView getImagesForCategory(@PathVariable("categoryId") Long categoryId) {
 
+        if(categoryId==null || categoryId <= 0){
+            categoryId = categoryDao.findDefaultCategory().getId();
+        }
+
         ModelAndView modelAndView = new ModelAndView("image/list");
 
         modelAndView.addObject(

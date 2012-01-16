@@ -87,6 +87,21 @@ public class PortfolioControllerTest {
     }
 
     @Test
+    public void getImagesForCategory_should_load_default_category_if_no_category_passed_through(){
+        when(mockCategoryDao.findDefaultCategory()).thenReturn(category);
+        when(mockImageDao.listImagesByCategory(category)).thenReturn(mockImages);
+        when(mockCategoryDao.read(Category.class, category.getId())).thenReturn(category);
+
+        ModelAndView modelAndView = portfolioController.getImagesForCategory(0l);
+
+        assertEquals(modelAndView.getModel().get("images"), mockImages);
+
+        verify(mockImageDao).listImagesByCategory(category);
+        verify(mockCategoryDao).findDefaultCategory();
+        verify(mockCategoryDao).read(Category.class, category.getId());
+    }
+
+    @Test
     public void get_categories_should_add_jspx_to_model(){
         ModelAndView modelAndView = portfolioController.getCategories();
         assertEquals(modelAndView.getViewName(), "category/list");
