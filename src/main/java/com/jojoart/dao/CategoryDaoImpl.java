@@ -2,7 +2,8 @@ package com.jojoart.dao;
 
 import com.jojoart.domain.Category;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,4 +14,13 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements CategoryDao {
+    public List<Category> getActiveCategoriesOrderByIsDefaultCategory() {
+
+        return getEntityManager()
+                .createQuery("SELECT a FROM Category a " +
+                        "WHERE :active = a.active " +
+                        "ORDER BY a.isDefaultCategory DESC", Category.class)
+                .setParameter("active", true)
+                .getResultList();
+    }
 }

@@ -2,6 +2,8 @@ package com.jojoart.dao;
 
 import com.jojoart.domain.Category;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: charlieivie
@@ -10,4 +12,5 @@ import com.jojoart.domain.Category;
  * To change this template use File | Settings | File Templates.
  */
 public interface CategoryDao extends GenericDao<Category, Long> {
+    List<Category> getActiveCategoriesOrderByIsDefaultCategory();
 }

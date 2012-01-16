@@ -10,6 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -93,7 +95,7 @@ public class CategoryDaoImplIntegrationTest {
 
         List<Category> categories = categoryDao.list(Category.class);
 
-        assertTrue(categories.size()==2);
+        assertTrue(categories.size() == 2);
 
     }
 
@@ -125,6 +127,62 @@ public class CategoryDaoImplIntegrationTest {
         Category expected = new Category("Landscapes", "outdoors landscapes", true, true, null);
 
         assertEquals(expected, actual);
+    }
+
+    @Transactional
+    @Test
+    public void getActiveCategoriesOrderByIsDefaultCategory_should_only_return_active_categories(){
+
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category1 = new Category("Portraits", "portraits", true, false, null);
+        Category category2 = new Category("Life", "life", false, false, null);
+        Category category3 = new Category("Abstract", "abstract", false, false, null);
+
+        categoryDao.create(category);
+        categoryDao.create(category1);
+        categoryDao.create(category2);
+        categoryDao.create(category3);
+
+        List<Category> actual = categoryDao.getActiveCategoriesOrderByIsDefaultCategory();
+
+        for(Category actualCategory: actual){
+            assertTrue(actualCategory.isActive());
+        }
+        assertEquals(2, actual.size());
+
+    }
+
+    @Transactional
+    @Test
+    public void getActiveCategoriesOrderByIsDefaultCategory_should_order_by_default(){
+
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category1 = new Category("Portraits", "portraits", true, true, null);
+        Category category2 = new Category("Life", "life", true, false, null);
+        Category category3 = new Category("Abstract", "abstract", true, false, null);
+
+        categoryDao.create(category);
+        categoryDao.create(category1);
+        categoryDao.create(category2);
+        categoryDao.create(category3);
+
+        List<Category> actual = categoryDao.getActiveCategoriesOrderByIsDefaultCategory();
+        
+        List<Category> expected = new LinkedList<Category>();
+        expected.add(category);
+        expected.add(category1);
+        expected.add(category2);
+        expected.add(category3);
+
+        List<Category> notExpected = new LinkedList<Category>();
+        notExpected.add(category2);
+        notExpected.add(category3);
+        notExpected.add(category);
+        notExpected.add(category1);
+
+        assertEquals(expected, actual);
+        assertNotSame(notExpected, actual);
+
     }
 
 

@@ -25,7 +25,7 @@ import java.io.IOException;
 @RequestMapping(value = "/image")
 public class ImageStreamController {
 
-    ImageVersionDao imageVersionDao;
+    private ImageVersionDao imageVersionDao;
 
     @RequestMapping(value = "/{imageId}/{type}", method = RequestMethod.GET)
     public void stream(
