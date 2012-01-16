@@ -88,10 +88,12 @@ public class ImageServiceImplTest {
 
         ImageVersion imageVersion = new ImageVersion("bytes".getBytes(), ImageType.NORMAL.toString(), image);
         ImageVersion imageVersion2 = new ImageVersion("bytes".getBytes(), ImageType.THUMBNAIL.toString(), image);
+        ImageVersion imageVersion3 = new ImageVersion("bytes".getBytes(), ImageType.LARGE.toString(), image);
 
         List<ImageVersion> imageVersions = new ArrayList<ImageVersion>();
         imageVersions.add(imageVersion);
         imageVersions.add(imageVersion2);
+        imageVersions.add(imageVersion3);
 
         when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
         when(mockImageVersionDao.getAllImageVersions(image)).thenReturn(imageVersions);

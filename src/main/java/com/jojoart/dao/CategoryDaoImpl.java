@@ -25,8 +25,8 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements C
     }
 
     public Category findDefaultCategory() {
-        return (Category) getEntityManager()
-                .createQuery("SELECT a FROM Category a WHERE a.isDefaultCategory = true")
+        return getEntityManager()
+                .createQuery("SELECT a FROM Category a WHERE a.isDefaultCategory = true", Category.class)
                 .setMaxResults(1)
                 .getSingleResult();
     }
