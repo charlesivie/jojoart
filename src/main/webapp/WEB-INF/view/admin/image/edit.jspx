@@ -24,7 +24,6 @@
                 <li><form:label path="name">Name</form:label><form:input path="name" label="name"/></li>
                 <li><form:label path="description">Description</form:label><form:input path="description"
                                                                                        label="description"/></li>
-                <li><form:label path="mimeType">mimeType</form:label><form:input path="mimeType" label="mimeType"/></li>
                 <li><form:label path="active">active?</form:label><form:checkbox path="active" label="active"/></li>
                 <li>
                     <form:label path="category">category</form:label>

@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,28 +36,31 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public void resizeAndStoreImage(Image image, MultipartFile multipartFile) throws IOException {
 
+        if (multipartFile == null) {
+            throw new FileNotFoundException("Multipart file cannot be null");
+        }
+
+        image.setMimeType(multipartFile.getContentType());
+
         if (image.getId() > 0) {
             imageDao.update(image);
         } else {
             imageDao.create(image);
         }
 
-        if (multipartFile != null) {
+        BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
+        List<ImageVersion> imageVersions = imageVersionDao.getAllImageVersions(image);
 
-            BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
-            List<ImageVersion> imageVersions =  imageVersionDao.getAllImageVersions(image);
+        for (ImageVersion imageVersion : imageVersions) {
+            imageVersionDao.delete(imageVersion);
+        }
 
-            for (ImageVersion imageVersion:imageVersions){
-                imageVersionDao.delete(imageVersion);
-            }
-
-            for (ImageType imageType : ImageType.values()) {
-                byte[] bytes = getResizedBytes(bufferedImage, multipartFile, imageType.getMaxSize());
-                imageVersionDao.create(new ImageVersion(bytes, imageType.toString(), image));
-            }
+        for (ImageType imageType : ImageType.values()) {
+            byte[] bytes = getResizedBytes(bufferedImage, multipartFile, imageType.getMaxSize());
+            imageVersionDao.create(new ImageVersion(bytes, imageType.toString(), image));
         }
     }
-    
+
     protected byte[] getResizedBytes(BufferedImage bufferedImage, MultipartFile multipartFile, int maxSize) throws IOException {
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

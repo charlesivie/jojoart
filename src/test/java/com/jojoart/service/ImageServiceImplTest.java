@@ -23,11 +23,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.apache.commons.io.FileUtils.openInputStream;
-import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.powermock.api.mockito.PowerMockito.*;
 
 /**
@@ -134,4 +132,19 @@ public class ImageServiceImplTest {
         verify(mockImageDao).update(expected);
     }
 
+    @Test(expected = FileNotFoundException.class)
+    public void resize_and_store_should_throw_exception_when_multipart_file_null() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
+
+        Image expected = new Image("cow", "picture of a cow", null, true, mockCategory);
+        expected.setId(1l);
+
+        imageService.resizeAndStoreImage(expected, null);
+
+        verify(mockImageDao, never()).update(expected);
+        verify(mockImageDao, never()).create(expected);
+
+    }
 }
