@@ -7,6 +7,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import java.io.FileNotFoundException;
+
 /**
  * Created by IntelliJ IDEA.
  * User: charlieivie
@@ -47,6 +49,12 @@ public class ImageServiceImplIntegrationTest {
     @Test
     @Ignore("to be implemented")
     public void resizeAndStoreImage_should_find_mimeType_from_png(){
+
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    @Ignore("to be implemented")
+    public void resizeAndStoreImage_should_throw_fileNotFound(){
 
     }
 }
