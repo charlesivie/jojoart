@@ -47,6 +47,7 @@ public class ImageServiceImplResizeTest {
         imageService.setImageDao(mockImageDao);
         imageService.setImageVersionDao(mockImageVersionDao);
     }
+
     @Test
     public void getResizedBytes_should_resize_png() throws IOException {
 
