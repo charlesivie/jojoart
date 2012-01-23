@@ -12,19 +12,17 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"/>
 
     <ul class="thumbs noscript">
-        anything?
-
-        <c:forEach items="${images}">
+        <c:forEach items="${images}" var="image">
             <li>
-                <a class="thumb" name="${image.name}" href="/art/${image.id}/normal" title="${image.name}">
-                    <img src="/art/${image.id}/thmubnail" alt="${image.name}"/>
+                <a class="thumb" name="${image.name}" href="/art/image/${image.id}/normal" title="${image.name}">
+                    <img src="/art/image/${image.id}/thumbnail" alt="${image.name}"/>
                 </a>
 
                 <div class="caption">
                     <div class="image-title">${image.name}</div>
                     <div class="image-desc">${image.description}</div>
                     <div class="download">
-                        <a href="/art/${image.id}/large">Download Original</a>
+                        <a href="/art/image/${image.id}/large">Download Original</a>
                     </div>
                 </div>
             </li>

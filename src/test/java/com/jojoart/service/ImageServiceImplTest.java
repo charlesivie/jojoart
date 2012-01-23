@@ -47,7 +47,7 @@ public class ImageServiceImplTest {
     @Mock private MultipartFile mockMultipartFile;
     @Mock private InputStream mockInputStream;
     @Mock private BufferedImage mockBufferedImage;
-    File testPng, testJpg, testGif;
+    private File testPng, testJpg, testGif;
 
     @Before
     public void setup() throws IOException {
