@@ -49,8 +49,7 @@ public class PortfolioController {
 
         modelAndView.addObject(
                 "images",
-                imageDao.listImagesByCategory(
-                        categoryDao.read(Category.class, categoryId))
+                imageDao.listImagesByCategory(categoryDao.read(Category.class, categoryId))
         );
 
         return modelAndView;
