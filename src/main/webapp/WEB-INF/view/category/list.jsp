@@ -3,7 +3,7 @@
 
 <ul class="leftnav">
     <c:forEach items="${categories}" var="category">
-        <li class="${category.name}">
+        <li class="portrait">
             <a href="/art/index.html?categoryId=${category.id}">${category.description}</a>
         </li>
     </c:forEach>

@@ -94,13 +94,13 @@ ul.leftnav a {
 	display: block;
 }
 ul.leftnav li.portrait a {
-	background: url(../img/leftnav-abstract.jpg) no-repeat bottom;
+	background: url(../images/leftnav-abstract.jpg) no-repeat bottom;
 }
 ul.leftnav li.landscape a {
-	background: url(../img/leftnav-abstract.jpg) no-repeat bottom;
+	background: url(../images/leftnav-abstract.jpg) no-repeat bottom;
 }
 ul.leftnav li.abstract a {
-	background: url(../img/leftnav-abstract.jpg) no-repeat bottom;
+	background: url(../images/leftnav-abstract.jpg) no-repeat bottom;
 }
 ul.leftnav li a:hover, ul leftnav li a:focus {
 	zoom: 1;

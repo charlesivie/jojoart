@@ -59,7 +59,7 @@ div.loader {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background-image: url('images/loader.gif');
+	background-image: url('../images/loader.gif');
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -199,8 +199,8 @@ div.gallery-gutter {
 	padding-bottom: 20px;
 }
 div.navigation a.prev {
-	background-image: url(prevPageArrowWhite.gif);
+	background-image: url(../images/prevPageArrowWhite.gif);
 }
 div.navigation a.next {
-	background-image: url(nextPageArrowWhite.gif);
+	background-image: url(../images/nextPageArrowWhite.gif);
 }

@@ -9,7 +9,6 @@ To change this template use File | Settings | File Templates.
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <ul class="thumbs noscript">
-
     <c:forEach items="${images}" var="image">
         <li>
             <a class="thumb" name="${image.name}" href="/art/image/${image.id}/normal" title="${image.name}">

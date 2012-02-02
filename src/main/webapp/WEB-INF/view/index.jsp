@@ -20,8 +20,7 @@
         }
     </style>
     <![endif]-->
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
-
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
     <script type="text/javascript" src="/js/jquery.history.js"></script>
     <script type="text/javascript" src="/js/jquery.galleriffic.js"></script>
     <script type="text/javascript" src="/js/jquery.opacityrollover.js"></script>
@@ -65,7 +64,9 @@
 
 <a class="pageLink prev" style="visibility: hidden;" href="#" title="Previous Page"></a>
 
-<ul class="thumbs noscript">
+<jsp:include page="/art/images/${categoryId!=null?categoryId:0}"/>
+
+<%--<ul class="thumbs noscript">
 <li>
     <a class="thumb" name="leaf" href="img/1.jpg" title="Title #0">
         <img src="http://farm4.static.flickr.com/3261/2538183196_8baf9a8015_s.jpg" alt="Title #0"/> </a>
@@ -380,7 +381,7 @@
 
     </div>
 </li>
-</ul>
+</ul>--%>
 <a class="pageLink next" style="visibility: hidden;" href="#" title="Next Page"></a></div>
 </div>
 <!-- End Gallery Html Containers -->
