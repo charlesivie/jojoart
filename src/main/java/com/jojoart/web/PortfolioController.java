@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -24,8 +25,11 @@ public class PortfolioController {
     private ImageDao imageDao;
 
     @RequestMapping(value = "/index.html", method = RequestMethod.GET)
-    public ModelAndView getIndex() {
-        return new ModelAndView("index");
+    public ModelAndView getIndex(@RequestParam(value = "categoryId", required = false) Long categoryId ) {
+
+        ModelAndView mav = new ModelAndView("index");
+        mav.addObject("categoryId", categoryId);
+        return mav;
     }
 
     @RequestMapping(value = "/categories", method = RequestMethod.GET)

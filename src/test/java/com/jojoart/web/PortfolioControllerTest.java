@@ -109,8 +109,14 @@ public class PortfolioControllerTest {
     
     @Test
     public void get_index_should_load_index_jspx(){
-        ModelAndView modelAndView = portfolioController.getIndex();
+        ModelAndView modelAndView = portfolioController.getIndex(0l);
         assertEquals(modelAndView.getViewName(), "index");
+    }
+
+    @Test
+    public void get_index_should_add_category_id_to_model(){
+        ModelAndView modelAndView = portfolioController.getIndex(007l);
+        assertEquals(modelAndView.getModel().get("categoryId"), 007l);
     }
 
 }

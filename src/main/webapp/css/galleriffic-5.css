@@ -59,7 +59,7 @@ div.loader {
 	position: absolute;
 	top: 0;
 	left: 0;
-	background-image: url('../images/loader.gif');
+	background-image: url('../images/load.gif');
 	background-repeat: no-repeat;
 	background-position: center;
 }
