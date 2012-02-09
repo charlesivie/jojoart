@@ -18,7 +18,7 @@ To change this template use File | Settings | File Templates.
     <ul>
         <c:forEach items="${images}" var="image">
             <li>
-                <a href="/art/image/${image.id}">
+                <a href="<c:url value="/admin/image/${image.id}"/>">
                     ${image.name},
                     ${image.description},
                     ${image.mimeType},
@@ -29,7 +29,7 @@ To change this template use File | Settings | File Templates.
     </ul>
 </div>
 <div>
-    <a href="/art/admin/image/0">insert new image</a>
+    <a href="<c:url value="/admin/image/0"/>">insert new image</a>
 </div>
 
 </body>

@@ -32,7 +32,7 @@ To change this template use File | Settings | File Templates.
                 </form:select>
             </li>
             <li>
-                <form:input type="file" name="file" id="file" path=""/>
+                <form:input type="file" name="file" id="file" path="" />
             </li>
         </ul>
         <input type="submit" value="save"/>
@@ -41,7 +41,7 @@ To change this template use File | Settings | File Templates.
 
 <c:if test="${image.id > 0}">
     <div>
-        <img src="/art/image/${image.id}/thumbnail" alt="${image.name}"/>
+        <img src="<c:url value="/image/${image.id}/thumbnail" />" alt="${image.name}"/>
     </div>
 </c:if>
 

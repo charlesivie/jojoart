@@ -17,7 +17,7 @@ To change this template use File | Settings | File Templates.
     <ul>
         <c:forEach items="${categories}" var="category">
             <li>
-                <a href="/art/category/${category.id}">
+                <a href="<c:url value="/admin/category/${category.id}" />">
                     ${category.name},
                     ${category.description},
                     ${category.active},
@@ -28,7 +28,7 @@ To change this template use File | Settings | File Templates.
     </ul>
 </div>
 <div>
-    <a href="/art/admin/category/0">insert new category</a>
+    <a href="<c:url value="/admin/category/0" />">insert new category</a>
 </div>
 
 </body>

@@ -158,4 +158,45 @@ public class ImageDaoImplIntegrationTest {
         assertEquals(expected, actual);
     }
 
+    @Transactional
+    @Test
+    public void listActiveImagesByCategory_should_return_only_active_images(){
+
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image3 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image4 = new Image("cow", "picture of a cow", "image/jpeg", false, category);
+        Image image5 = new Image("cow", "picture of a cow", "image/jpeg", false, category);
+        Image image6 = new Image("cow", "picture of a cow", "image/jpeg", false, category);
+        imageDao.create(image);
+        imageDao.create(image2);
+        imageDao.create(image3);
+        imageDao.create(image4);
+        imageDao.create(image5);
+        imageDao.create(image6);
+
+        assertEquals(3, imageDao.listActiveImagesByCategory(category).size());
+    }
+
+
+    @Transactional
+    @Test
+    public void listActiveImagesByCategory_should_return_only_3_images(){
+
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image2 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image3 = new Image("cow", "picture of a cow", "image/jpeg", true, category);
+        Image image4 = new Image("cow", "picture of a cow", "image/jpeg", true, category2);
+        Image image5 = new Image("cow", "picture of a cow", "image/jpeg", true, category2);
+        Image image6 = new Image("cow", "picture of a cow", "image/jpeg", true, category2);
+        imageDao.create(image);
+        imageDao.create(image2);
+        imageDao.create(image3);
+        imageDao.create(image4);
+        imageDao.create(image5);
+        imageDao.create(image6);
+
+        assertEquals(3, imageDao.listActiveImagesByCategory(category).size());
+    }
+
 }

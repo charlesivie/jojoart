@@ -36,17 +36,35 @@ public class ImageServiceImpl implements ImageService {
     @Transactional
     public void resizeAndStoreImage(Image image, MultipartFile multipartFile) throws IOException {
 
-        if (multipartFile == null) {
+        if (image.getId() > 0) {
+            update(image, multipartFile);
+        } else {
+            insert(image, multipartFile);
+        }
+
+    }
+
+    private void update(Image image, MultipartFile multipartFile) throws IOException {
+
+        imageDao.update(image);
+        if (multipartFile!=null && !multipartFile.isEmpty()) {
+            image.setMimeType(multipartFile.getContentType());
+            persistImageVersions(image, multipartFile);
+        }
+    }
+
+    private void insert(Image image, MultipartFile multipartFile) throws IOException {
+
+        if (multipartFile!=null && multipartFile.isEmpty()) {
             throw new FileNotFoundException("Multipart file cannot be null");
         }
-
         image.setMimeType(multipartFile.getContentType());
 
-        if (image.getId() > 0) {
-            imageDao.update(image);
-        } else {
-            imageDao.create(image);
-        }
+        imageDao.create(image);
+        persistImageVersions(image, multipartFile);
+    }
+
+    private void persistImageVersions(Image image, MultipartFile multipartFile) throws IOException {
 
         BufferedImage bufferedImage = ImageIO.read(multipartFile.getInputStream());
         List<ImageVersion> imageVersions = imageVersionDao.getAllImageVersions(image);

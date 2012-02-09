@@ -14,4 +14,5 @@ import java.util.List;
  */
 public interface ImageDao extends GenericDao<Image, Long> {
     List<Image> listImagesByCategory(Category category);
+    List<Image> listActiveImagesByCategory(Category category);
 }

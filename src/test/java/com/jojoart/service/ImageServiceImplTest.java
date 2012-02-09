@@ -23,6 +23,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,6 +48,7 @@ public class ImageServiceImplTest {
     @Mock private MultipartFile mockMultipartFile;
     @Mock private InputStream mockInputStream;
     @Mock private BufferedImage mockBufferedImage;
+    @Mock private Image mockImage;
     private File testPng, testJpg, testGif;
 
     @Before
@@ -133,18 +135,86 @@ public class ImageServiceImplTest {
     }
 
     @Test(expected = FileNotFoundException.class)
-    public void resize_and_store_should_throw_exception_when_multipart_file_null() throws IOException {
+    public void when_insert_resizeAndStoreImage_should_throw_exception_when_multipart_file_empty() throws IOException {
 
         mockStatic(ImageIO.class);
         mockStatic(Scalr.class);
 
+        when(mockMultipartFile.isEmpty()).thenReturn(true);
+        
         Image expected = new Image("cow", "picture of a cow", null, true, mockCategory);
-        expected.setId(1l);
 
-        imageService.resizeAndStoreImage(expected, null);
+        imageService.resizeAndStoreImage(expected, mockMultipartFile);
 
+        verify(mockMultipartFile).isEmpty();
         verify(mockImageDao, never()).update(expected);
         verify(mockImageDao, never()).create(expected);
 
     }
+
+    @Test
+    public void when_update_resizeAndStoreImage_should_not_update_versions_when_multipart_null() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
+
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
+        image.setId(1l);
+
+        imageService.resizeAndStoreImage(image, null);
+
+        verify(mockImageVersionDao, never());
+//        verify(mockMultipartFile, never());
+//        verify(mockImageVersionDao, never()).delete(Matchers.<ImageVersion>anyObject());
+//        verify(mockImageVersionDao, never()).create(Matchers.<ImageVersion>anyObject());
+//        verify(mockImageVersionDao, never()).getAllImageVersions(Matchers.<Image>anyObject());
+//        verify(mockMultipartFile, never()).getContentType();
+//        verify(mockMultipartFile, never()).getInputStream();
+//
+//        fail();
+    }
+
+    @Test
+    public void when_update_resizeAndStoreImage_should_not_manipulate_multipart_when_null() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
+
+        Image image = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
+        image.setId(1l);
+
+        imageService.resizeAndStoreImage(image, null);
+
+        verify(mockMultipartFile, never());
+//        verify(mockImageVersionDao, never()).delete(Matchers.<ImageVersion>anyObject());
+//        verify(mockImageVersionDao, never()).create(Matchers.<ImageVersion>anyObject());
+//        verify(mockImageVersionDao, never()).getAllImageVersions(Matchers.<Image>anyObject());
+//        verify(mockMultipartFile, never()).getContentType();
+//        verify(mockMultipartFile, never()).getInputStream();
+//
+//        fail();
+    }
+
+    @Test
+    public void when_update_resizeAndStoreImage_should_not_set_mime_type_when_multipart_null() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
+
+        // will be an update because id is not 0
+        when(mockImage.getId()).thenReturn(1l);
+
+        imageService.resizeAndStoreImage(mockImage, null);
+
+        verify(mockImage, never()).setMimeType(Matchers.<String>anyObject());
+//        verify(mockMultipartFile, never());
+//        verify(mockImageVersionDao, never()).delete(Matchers.<ImageVersion>anyObject());
+//        verify(mockImageVersionDao, never()).create(Matchers.<ImageVersion>anyObject());
+//        verify(mockImageVersionDao, never()).getAllImageVersions(Matchers.<Image>anyObject());
+//        verify(mockMultipartFile, never()).getContentType();
+//        verify(mockMultipartFile, never()).getInputStream();
+//
+//        fail();
+    }
+    
 }

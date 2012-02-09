@@ -23,4 +23,11 @@ public class ImageDaoImpl extends GenericDaoImpl<Image, Long> implements ImageDa
                 .getResultList();
 
     }
+
+    public List<Image> listActiveImagesByCategory(Category category) {
+        return getEntityManager()
+                .createQuery("SELECT a FROM Image a WHERE :category = a.category AND a.active = true", Image.class)
+                .setParameter("category", category)
+                .getResultList();
+    }
 }

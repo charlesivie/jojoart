@@ -24,7 +24,7 @@ public class PortfolioController {
     private CategoryDao categoryDao;
     private ImageDao imageDao;
 
-    @RequestMapping(value = "/index.html", method = RequestMethod.GET)
+    @RequestMapping(value = "index.html", method = RequestMethod.GET)
     public ModelAndView getIndex(@RequestParam(value = "categoryId", required = false) Long categoryId ) {
 
         ModelAndView mav = new ModelAndView("index");
@@ -53,7 +53,7 @@ public class PortfolioController {
 
         modelAndView.addObject(
                 "images",
-                imageDao.listImagesByCategory(categoryDao.read(Category.class, categoryId))
+                imageDao.listActiveImagesByCategory(categoryDao.read(Category.class, categoryId))
         );
 
         return modelAndView;

@@ -75,13 +75,13 @@ public class PortfolioControllerTest {
     @Test
     public void getImagesForCategory_should_add_all_images_for_category_to_model(){
         when(mockCategoryDao.read(Category.class, category.getId())).thenReturn(category);
-        when(mockImageDao.listImagesByCategory(category)).thenReturn(mockImages);
+        when(mockImageDao.listActiveImagesByCategory(category)).thenReturn(mockImages);
 
         ModelAndView modelAndView = portfolioController.getImagesForCategory(category.getId());
 
         assertEquals(modelAndView.getModel().get("images"), mockImages);
 
-        verify(mockImageDao).listImagesByCategory(category);
+        verify(mockImageDao).listActiveImagesByCategory(category);
         verify(mockCategoryDao).read(Category.class, category.getId());
 
     }
@@ -89,14 +89,14 @@ public class PortfolioControllerTest {
     @Test
     public void getImagesForCategory_should_load_default_category_if_no_category_passed_through(){
         when(mockCategoryDao.findDefaultCategory()).thenReturn(category);
-        when(mockImageDao.listImagesByCategory(category)).thenReturn(mockImages);
+        when(mockImageDao.listActiveImagesByCategory(category)).thenReturn(mockImages);
         when(mockCategoryDao.read(Category.class, category.getId())).thenReturn(category);
 
         ModelAndView modelAndView = portfolioController.getImagesForCategory(0l);
 
         assertEquals(modelAndView.getModel().get("images"), mockImages);
 
-        verify(mockImageDao).listImagesByCategory(category);
+        verify(mockImageDao).listActiveImagesByCategory(category);
         verify(mockCategoryDao).findDefaultCategory();
         verify(mockCategoryDao).read(Category.class, category.getId());
     }

@@ -6,13 +6,14 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <meta http-equiv="Content-type" content="text/html; charset=utf-8">
     <title>Jo Ivie Arts</title>
-    <link rel="stylesheet" href="/css/basic.css" type="text/css"/>
-    <link rel="stylesheet" href="/css/galleriffic-5.css" type="text/css"/>
-    <link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="<c:url value="/resources/css/basic.css" />" type="text/css"/>
+    <link rel="stylesheet" href="<c:url value="/resources/css/galleriffic-5.css" />" type="text/css"/>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' type='text/css'>
     <!--[if gte IE 9]>
     <style type="text/css">
         .gradient {
@@ -20,10 +21,10 @@
         }
     </style>
     <![endif]-->
-    <script type="text/javascript" src="/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.history.js"></script>
-    <script type="text/javascript" src="/js/jquery.galleriffic.js"></script>
-    <script type="text/javascript" src="/js/jquery.opacityrollover.js"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery.min.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery.history.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery.galleriffic.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/resources/js/jquery.opacityrollover.js" />"></script>
     <!-- We only want the thunbnails to display when javascript is disabled -->
     <script type="text/javascript">
         document.write('<style>.noscript { display: none; }</style>');
@@ -42,7 +43,7 @@
 </div>
 
 <div class="left">
-    <jsp:include page="/art/categories"/>
+    <jsp:include page="/categories"/>
 </div>
 <div class="main">
 <!-- Start Advanced Gallery Html Containers -->
@@ -64,7 +65,7 @@
 
 <a class="pageLink prev" style="visibility: hidden;" href="#" title="Previous Page"></a>
 
-<jsp:include page="/art/images/${categoryId!=null?categoryId:0}"/>
+<jsp:include page="/images/${categoryId!=null?categoryId:0}"/>
 
 <a class="pageLink next" style="visibility: hidden;" href="#" title="Next Page"></a></div>
 </div>
