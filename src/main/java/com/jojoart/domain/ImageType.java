@@ -11,7 +11,7 @@ public enum ImageType {
 
     LARGE(1000),
     NORMAL(500),
-    THUMBNAIL(100);
+    THUMBNAIL(75);
 
     private int maxSize;
 
