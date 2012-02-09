@@ -18,7 +18,7 @@ public class ImageVersionTest {
 
     @Before
     public void setup(){
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
         image = new Image("name", "description", "image/jpg", true, category);
     }
 

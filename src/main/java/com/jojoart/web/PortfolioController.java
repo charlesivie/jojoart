@@ -24,11 +24,20 @@ public class PortfolioController {
     private CategoryDao categoryDao;
     private ImageDao imageDao;
 
-    @RequestMapping(value = "index.html", method = RequestMethod.GET)
-    public ModelAndView getIndex(@RequestParam(value = "categoryId", required = false) Long categoryId ) {
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public ModelAndView getIndex() {
+
+        return new ModelAndView("index");
+    }
+
+    @RequestMapping(value = "/{categoryName}", method = RequestMethod.GET)
+    public ModelAndView getIndex(@PathVariable("categoryName") String categoryName) {
 
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("categoryId", categoryId);
+        
+        Category category = categoryDao.findCategoryByName(categoryName);
+        mav.addObject("categoryId", category.getId());
+
         return mav;
     }
 

@@ -4,7 +4,7 @@
 <ul class="leftnav">
     <c:forEach items="${categories}" var="category">
         <li class="portrait">
-            <a href="/index.html?categoryId=${category.id}">${category.description}</a>
+            <a href="/${category.name}">${category.description}</a>
         </li>
     </c:forEach>
 </ul>

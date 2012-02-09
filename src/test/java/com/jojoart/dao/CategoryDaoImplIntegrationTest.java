@@ -35,7 +35,7 @@ public class CategoryDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testInsert() {
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
         categoryDao.create(category);
         assertTrue(category.getId() > 0);
     }
@@ -43,7 +43,7 @@ public class CategoryDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testUpdate() {
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
 
         categoryDao.create(category);
         Image image = imageDao.create(new Image("cow", "pic of a cow", "image/jpg", true, category));
@@ -54,12 +54,11 @@ public class CategoryDaoImplIntegrationTest {
         category.setDescription("updated");
         category.setActive(false);
         category.setDefaultCategory(false);
-        category.setImage(image);
 
         categoryDao.update(category);
 
         Category actual = categoryDao.read(Category.class, createdId);
-        Category expected = new Category("updated", "updated", false, false, image);
+        Category expected = new Category("updated", "updated", false, false);
 
         assertEquals(expected, actual);
     }
@@ -67,8 +66,8 @@ public class CategoryDaoImplIntegrationTest {
     @Transactional
     @Test
     public void testDelete() {
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
-        Category category2 = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category2 = new Category("Portraits", "outdoors landscapes", true, true);
 
         categoryDao.create(category);
         categoryDao.create(category2);
@@ -86,8 +85,8 @@ public class CategoryDaoImplIntegrationTest {
     @Test
     public void testList() {
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
-        Category category2 = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category2 = new Category("Portraits", "outdoors landscapes", true, true);
 
         categoryDao.create(category);
         categoryDao.create(category2);
@@ -103,7 +102,7 @@ public class CategoryDaoImplIntegrationTest {
     public void testListWithOffsetAndLimit() {
 
         for(int i = 0;i<20;i++){
-            categoryDao.create(new Category("Landscapes", "outdoors landscapes", true, true, null));
+            categoryDao.create(new Category("Landscapes"+i, "outdoors landscapes", true, true));
         }
 
         List<Category> categories = categoryDao.list(Category.class, 10, 10);
@@ -116,14 +115,14 @@ public class CategoryDaoImplIntegrationTest {
     @Test
     public void testFind(){
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
 
         categoryDao.create(category);
 
         long createdId = category.getId();
 
         Category actual = categoryDao.read(Category.class, createdId);
-        Category expected = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        Category expected = new Category("Landscapes", "outdoors landscapes", true, true);
 
         assertEquals(expected, actual);
     }
@@ -132,10 +131,10 @@ public class CategoryDaoImplIntegrationTest {
     @Test
     public void getActiveCategoriesOrderByIsDefaultCategory_should_only_return_active_categories(){
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
-        Category category1 = new Category("Portraits", "portraits", true, false, null);
-        Category category2 = new Category("Life", "life", false, false, null);
-        Category category3 = new Category("Abstract", "abstract", false, false, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category1 = new Category("Portraits", "portraits", true, false);
+        Category category2 = new Category("Life", "life", false, false);
+        Category category3 = new Category("Abstract", "abstract", false, false);
 
         categoryDao.create(category);
         categoryDao.create(category1);
@@ -155,10 +154,10 @@ public class CategoryDaoImplIntegrationTest {
     @Test
     public void getActiveCategoriesOrderByIsDefaultCategory_should_order_by_default(){
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
-        Category category1 = new Category("Portraits", "portraits", true, true, null);
-        Category category2 = new Category("Life", "life", true, false, null);
-        Category category3 = new Category("Abstract", "abstract", true, false, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category1 = new Category("Portraits", "portraits", true, true);
+        Category category2 = new Category("Life", "life", true, false);
+        Category category3 = new Category("Abstract", "abstract", true, false);
 
         categoryDao.create(category);
         categoryDao.create(category1);
@@ -188,10 +187,10 @@ public class CategoryDaoImplIntegrationTest {
     @Transactional
     public void findDefaultCategory_should_return_one_default_category(){
 
-        Category category = new Category("Landscapes", "outdoors landscapes", true, true, null);
-        Category category1 = new Category("Portraits", "portraits", true, true, null);
-        Category category2 = new Category("Life", "life", true, false, null);
-        Category category3 = new Category("Abstract", "abstract", true, false, null);
+        Category category = new Category("Landscapes", "outdoors landscapes", true, true);
+        Category category1 = new Category("Portraits", "portraits", true, true);
+        Category category2 = new Category("Life", "life", true, false);
+        Category category3 = new Category("Abstract", "abstract", true, false);
 
         categoryDao.create(category);
         categoryDao.create(category1);
@@ -203,5 +202,23 @@ public class CategoryDaoImplIntegrationTest {
         assertEquals(category, actual);
     }
 
+    @Test
+    @Transactional
+    public void findCategoryByName_should_get_category(){
+
+        Category expected = new Category("Expected", "outdoors landscapes", true, true);
+        Category category1 = new Category("Portraits", "portraits", true, true);
+        Category category2 = new Category("Life", "life", true, false);
+        Category category3 = new Category("Abstract", "abstract", true, false);
+
+        categoryDao.create(expected);
+        categoryDao.create(category1);
+        categoryDao.create(category2);
+        categoryDao.create(category3);
+
+        Category actual = categoryDao.findCategoryByName("Expected");
+
+        assertEquals(expected, actual);
+    }
 
 }

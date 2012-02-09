@@ -104,7 +104,7 @@ public class ImageControllerTest {
 
         List<Category> categories = new ArrayList<Category>();
         for(int i = 1; i <10; i++){
-            categories.add(new Category("john"+i, "desc", true, false, null));
+            categories.add(new Category("john"+i, "desc", true, false));
         }
 
         Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);
@@ -122,7 +122,7 @@ public class ImageControllerTest {
         
         List<Category> categories = new ArrayList<Category>();
         for(int i = 1; i <10; i++){
-            categories.add(new Category("john"+i, "desc", true, false, null));
+            categories.add(new Category("john"+i, "desc", true, false));
         }
 
         Image image = new Image("cow", "piture of a cow", "image/jpeg", true, mockCategory);

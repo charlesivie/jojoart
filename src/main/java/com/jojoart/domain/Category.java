@@ -16,22 +16,14 @@ public class Category implements Serializable {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(unique = true)
     private String name;
     private String description;
     private boolean active;
     private boolean isDefaultCategory;
-    @Null @OneToOne private Image image;
 
     public Category(long id) {
         this.id = id;
-    }
-
-    public Category(String name, String description, boolean isActive, boolean isDefaultCategory, Image image) {
-        this.name = name;
-        this.description = description;
-        this.active = isActive;
-        this.isDefaultCategory = isDefaultCategory;
-        this.image = image;
     }
 
     public Category(String name, String description, boolean isActive, boolean isDefaultCategory) {
@@ -42,14 +34,6 @@ public class Category implements Serializable {
     }
 
     public Category() {
-    }
-
-    public Image getImage() {
-        return image;
-    }
-
-    public void setImage(Image image) {
-        this.image = image;
     }
 
     public long getId() {
@@ -102,7 +86,6 @@ public class Category implements Serializable {
         return active == category.active
                 && isDefaultCategory == category.isDefaultCategory
                 && !(description != null ? !description.equals(category.description) : category.description != null)
-                && !(image != null ? !image.equals(category.image) : category.image != null)
                 && !(name != null ? !name.equals(category.name) : category.name != null);
 
     }
@@ -113,7 +96,6 @@ public class Category implements Serializable {
         result = 31 * result + (description != null ? description.hashCode() : 0);
         result = 31 * result + (active ? 1 : 0);
         result = 31 * result + (isDefaultCategory ? 1 : 0);
-        result = 31 * result + (image != null ? image.hashCode() : 0);
         return result;
     }
 

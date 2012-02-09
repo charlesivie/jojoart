@@ -44,7 +44,7 @@ public class PortfolioControllerTest {
     @Before
     public void setup(){
 
-        category = new Category("Landscapes", "outdoors landscapes", true, true, null);
+        category = new Category("Landscapes", "outdoors landscapes", true, true);
         category.setId(1l);
 
         mockImages.add(new Image("cow", "pictures of a cow", "image/jpg", true, category));
@@ -52,9 +52,9 @@ public class PortfolioControllerTest {
         mockImages.add(new Image("sheep", "pictures of a cow", "image/jpg", true, category));
         
         mockCategories.add(category);
-        mockCategories.add(new Category("Portraits", "portraits", true, true, null));
-        mockCategories.add(new Category("Life", "life", true, false, null));
-        mockCategories.add(new Category("Abstract", "abstract", true, false, null));
+        mockCategories.add(new Category("Portraits", "portraits", true, true));
+        mockCategories.add(new Category("Life", "life", true, false));
+        mockCategories.add(new Category("Abstract", "abstract", true, false));
 
         portfolioController = new PortfolioController();
         portfolioController.setCategoryDao(mockCategoryDao);
@@ -106,17 +106,18 @@ public class PortfolioControllerTest {
         ModelAndView modelAndView = portfolioController.getCategories();
         assertEquals(modelAndView.getViewName(), "category/list");
     }
-    
-    @Test
-    public void get_index_should_load_index_jspx(){
-        ModelAndView modelAndView = portfolioController.getIndex(0l);
-        assertEquals(modelAndView.getViewName(), "index");
-    }
 
     @Test
     public void get_index_should_add_category_id_to_model(){
-        ModelAndView modelAndView = portfolioController.getIndex(007l);
-        assertEquals(modelAndView.getModel().get("categoryId"), 007l);
+        when(mockCategoryDao.findCategoryByName("category")).thenReturn(category);
+        ModelAndView modelAndView = portfolioController.getIndex("category");
+        assertEquals(modelAndView.getModel().get("categoryId"), category.getId());
+    }
+
+    @Test
+    public void getIndex_should_put_index_view_on_model(){
+        ModelAndView modelAndView = portfolioController.getIndex();
+        assertEquals("index", modelAndView.getViewName());
     }
 
 }

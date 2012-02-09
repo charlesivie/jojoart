@@ -30,4 +30,11 @@ public class CategoryDaoImpl extends GenericDaoImpl<Category, Long> implements C
                 .setMaxResults(1)
                 .getSingleResult();
     }
+
+    public Category findCategoryByName(String categoryName) {
+        return getEntityManager()
+                .createQuery("SELECT a FROM Category a WHERE :name = a.name", Category.class)
+                .setParameter("name", categoryName)
+                .getSingleResult();
+    }
 }

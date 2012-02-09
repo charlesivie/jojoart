@@ -23,7 +23,6 @@
             <li><form:label path="description"/><form:input path="description" label="description"/></li>
             <li><form:label path="active"/><form:checkbox path="active" label="active"/></li>
             <li><form:label path="defaultCategory"/><form:checkbox path="defaultCategory" label="defaultCategory"/></li>
-            <li><form:label path="image"/><form:select items="${images}" path="image.id" itemValue="id"/></li>
         </ul>
         <input type="submit" value="save"/>
     </form:form>

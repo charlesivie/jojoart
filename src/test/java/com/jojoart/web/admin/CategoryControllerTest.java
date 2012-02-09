@@ -45,11 +45,9 @@ public class CategoryControllerTest {
     }
     
     @Test
-    public void getEditShouldProvideCategoryWithImageToModelAndView(){
+    public void getEditShouldProvideCategoryToModelAndView(){
 
         Category expected = new Category("bob", "jones", true, false);
-        Image expectedImage = new Image("image", "desc", "image/jpg", true, expected);
-        expected.setImage(expectedImage);
 
         when(mockCategoryDao.read(Category.class, 1l)).thenReturn(expected);
 
@@ -142,7 +140,7 @@ public class CategoryControllerTest {
 
     @Test
     public void postEditShouldStoreNewCategory(){
-        Category expected = new Category("bob", "jones", true, false, image);
+        Category expected = new Category("bob", "jones", true, false);
 
         when(mockCategoryDao.create(expected)).thenReturn(expected);
 
@@ -156,7 +154,7 @@ public class CategoryControllerTest {
 
     @Test
     public void postEditShouldUpdateCategory(){
-        Category expected = new Category("bob", "jones", true, false, image);
+        Category expected = new Category("bob", "jones", true, false);
         expected.setId(1l);
 
         when(mockCategoryDao.update(expected)).thenReturn(expected);

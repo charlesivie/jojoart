@@ -22,7 +22,6 @@ To change this template use File | Settings | File Templates.
                     ${category.description},
                     ${category.active},
                     ${category.defaultCategory}</a>
-                ${category.image.name}
             </li>
         </c:forEach>
     </ul>

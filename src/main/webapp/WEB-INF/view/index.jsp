@@ -35,7 +35,7 @@
 <div id="page">
 <div id="container">
 <div id="header">
-    <h1><a href="index.html">Jo Ivie Arts</a></h1>
+    <h1><a href="/">Jo Ivie Arts</a></h1>
     <ul class="topnav">
         <li><a href="#">About</a></li>
         <li><a href="#">Contact</a></li>
