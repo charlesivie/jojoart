@@ -33,8 +33,7 @@
     <context:component-scan base-package="com.jojoart"/>
 
     <bean class="java.net.URI" id="dbUrl">
-        <constructor-arg value="${JUSTONEDB_DBI_URL}"/>
-        <!--<constructor-arg value="${DATABASE_URL}"/>-->
+        <constructor-arg value="${DATABASE_URL}"/>
     </bean>
 
 
