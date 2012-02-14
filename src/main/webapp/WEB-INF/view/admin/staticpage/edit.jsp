@@ -19,9 +19,9 @@ To change this template use File | Settings | File Templates.
 
 <div>
     <form:form commandName="staticpage" method="POST" enctype="multipart/form-data">
-        <form:hidden path="id"/>
+        <form:hidden path="path"/>
         <ul>
-            <li><form:label path="path">Path</form:label><form:input path="path" label="path"/></li>
+            <li><form:label path="name">Name</form:label><form:input path="name" label="name"/></li>
             <li><form:label path="active">active?</form:label><form:checkbox path="active" label="active"/></li>
             <li><form:label path="htmlContent">Html Content</form:label><form:input path="htmlContent"/></li>
         </ul>

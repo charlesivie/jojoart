@@ -4,6 +4,7 @@ import com.jojoart.dao.StaticPageDao;
 import com.jojoart.domain.StaticPage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,6 +46,25 @@ public class StaticPageController {
         }
 
         modelAndView.addObject("staticPage", staticPage);
+
+        return modelAndView;
+    }
+
+
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    public ModelAndView edit(@ModelAttribute("staticPage") StaticPage staticPage, @PathVariable String path) {
+
+        if (!staticPage.getPath().equalsIgnoreCase("0")) {
+            staticPageDao.update(staticPage);
+        } else {
+            staticPageDao.create(staticPage);
+        }
+
+        ModelAndView modelAndView = new ModelAndView("admin/staticpage/edit");
+
+        modelAndView.addObject("staticPage", staticPage);
+        modelAndView.addObject("saved", true);
 
         return modelAndView;
     }
