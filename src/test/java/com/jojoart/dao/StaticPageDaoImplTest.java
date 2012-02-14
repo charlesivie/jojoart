@@ -71,15 +71,13 @@ public class StaticPageDaoImplTest {
     }
 
     @Test
-    @Ignore
+    @Ignore("to be implemented")
     public void delete_should_delete(){
-        fail();
     }
 
     @Test
-    @Ignore
+    @Ignore("to be implemented")
     public void insert_should_insert_large_html(){
-        fail();
     }
 
 

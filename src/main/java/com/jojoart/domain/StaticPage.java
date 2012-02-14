@@ -29,6 +29,10 @@ public class StaticPage {
 
     public StaticPage() {}
 
+    public StaticPage(String path) {
+        this.path = path;
+    }
+
     public String getPath() {
         return path;
     }
