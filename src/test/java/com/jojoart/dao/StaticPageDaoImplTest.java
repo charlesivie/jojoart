@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.PersistenceException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 /**
@@ -71,13 +72,31 @@ public class StaticPageDaoImplTest {
     }
 
     @Test
-    @Ignore("to be implemented")
+    @Transactional
     public void delete_should_delete(){
+
+        StaticPage original = staticPageDao.create(staticPageSmall);
+
+        staticPageDao.delete(original);
+
+        StaticPage actual = staticPageDao.read(StaticPage.class, "about");
+
+        assertNull(actual);
     }
 
     @Test
-    @Ignore("to be implemented")
+    @Transactional
     public void insert_should_insert_large_html(){
+        
+        StringBuilder sb = new StringBuilder("<div>html content</div>");
+        for(int i =0;i<10000;i++){
+            sb.append("<div>html content asdf asdf asdf asdf asdf asdf asdf asdf asdf </div>");
+        }
+        String expectedHtml = sb.toString();
+        
+        staticPageDao.create(new StaticPage("about", expectedHtml, true));
+
+        assertEquals(expectedHtml, staticPageDao.read(StaticPage.class, "about").getHtmlContent());
     }
 
 

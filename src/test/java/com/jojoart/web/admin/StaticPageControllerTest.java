@@ -53,13 +53,19 @@ public class StaticPageControllerTest {
     
     @Test
     @Ignore("to be implemented")
-    public void edit_should_update(){
+    public void edit_post_should_update(){
     }
 
     @Test
     @Ignore("to be implemented")
-    public void edit_should_insert(){
+    public void edit_post_should_insert(){
 
     }
+
+    @Test
+    @Ignore("to be implemented")
+    public void edit_get_should_put_staticPage_on_model(){
+    }
+
 
 }

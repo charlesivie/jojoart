@@ -18,11 +18,13 @@ public class StaticPage {
 
     @Id
     private String path;
+    private String name;
     private String htmlContent;
     private boolean active;
 
-    public StaticPage(String path, String htmlContent, boolean active) {
-        setPath(path);
+    public StaticPage(String name, String htmlContent, boolean active) {
+        setPath(name);
+        this.name = name;
         this.htmlContent = htmlContent;
         this.active = active;
     }
@@ -61,6 +63,14 @@ public class StaticPage {
         this.active = active;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -70,13 +80,13 @@ public class StaticPage {
 
         return active == that.active
                 && !(htmlContent != null ? !htmlContent.equals(that.htmlContent) : that.htmlContent != null)
-                && !(path != null ? !path.equals(that.path) : that.path != null);
+                && !(name != null ? !name.equals(that.name) : that.name != null);
 
     }
 
     @Override
     public int hashCode() {
-        int result = path != null ? path.hashCode() : 0;
+        int result = name != null ? name.hashCode() : 0;
         result = 31 * result + (htmlContent != null ? htmlContent.hashCode() : 0);
         result = 31 * result + (active ? 1 : 0);
         return result;

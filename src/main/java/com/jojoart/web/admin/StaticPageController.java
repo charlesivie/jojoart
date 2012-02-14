@@ -40,11 +40,11 @@ public class StaticPageController {
         StaticPage staticPage = new StaticPage();
         ModelAndView modelAndView = new ModelAndView("admin/category/edit");
 
-        if (path !=null && !path.equalsIgnoreCase("new")) {
+        if (!path.equalsIgnoreCase("0")) {
             staticPage = staticPageDao.read(StaticPage.class, path);
         }
 
-        modelAndView.addObject("category", staticPage);
+        modelAndView.addObject("staticPage", staticPage);
 
         return modelAndView;
     }
