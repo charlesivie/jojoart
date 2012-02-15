@@ -30,7 +30,7 @@ public class StaticPageController {
     public ModelAndView list() {
 
         ModelAndView modelAndView = new ModelAndView("admin/staticpage/list");
-        modelAndView.addObject("staticpages", staticPageDao.list(StaticPage.class));
+        modelAndView.addObject("staticPages", staticPageDao.list(StaticPage.class));
 
         return modelAndView;
     }
@@ -39,7 +39,7 @@ public class StaticPageController {
     public ModelAndView edit(@PathVariable String path) {
 
         StaticPage staticPage = new StaticPage();
-        ModelAndView modelAndView = new ModelAndView("admin/category/edit");
+        ModelAndView modelAndView = new ModelAndView("admin/staticpage/edit");
 
         if (!path.equalsIgnoreCase("0")) {
             staticPage = staticPageDao.read(StaticPage.class, path);
@@ -52,10 +52,10 @@ public class StaticPageController {
 
 
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{path}", method = RequestMethod.POST)
     public ModelAndView edit(@ModelAttribute("staticPage") StaticPage staticPage, @PathVariable String path) {
 
-        if (!staticPage.getPath().equalsIgnoreCase("0")) {
+        if (!path.equalsIgnoreCase("0")) {
             staticPageDao.update(staticPage);
         } else {
             staticPageDao.create(staticPage);

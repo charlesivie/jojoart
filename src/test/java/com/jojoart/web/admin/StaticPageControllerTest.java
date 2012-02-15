@@ -46,25 +46,54 @@ public class StaticPageControllerTest {
 
         ModelAndView modelAndView = staticPageController.list();
 
-        assertEquals(staticPages, modelAndView.getModelMap().get("staticpages"));
+        assertEquals(staticPages, modelAndView.getModelMap().get("staticPages"));
 
         verify(staticPageDao).list(StaticPage.class);
     }
     
     @Test
-    @Ignore("to be implemented")
     public void edit_post_should_update(){
+
+        StaticPage staticPage = new StaticPage("poetry", "html content", true);
+
+        when(staticPageDao.update(staticPage)).thenReturn(staticPage);
+
+        ModelAndView modelAndView = staticPageController.edit(staticPage,  "poetry");
+
+        verify(staticPageDao).update(staticPage);
+
+        assertEquals(staticPage, modelAndView.getModel().get("staticPage"));
     }
 
     @Test
-    @Ignore("to be implemented")
     public void edit_post_should_insert(){
 
+        StaticPage staticPage = new StaticPage("poetry", "html content", true);
+
+        when(staticPageDao.create(staticPage)).thenReturn(staticPage);
+
+        ModelAndView modelAndView = staticPageController.edit(staticPage,  "0");
+
+        verify(staticPageDao).create(staticPage);
+
+        assertEquals(staticPage, modelAndView.getModel().get("staticPage"));
+        assertEquals("admin/staticpage/edit", modelAndView.getViewName());
     }
 
     @Test
-    @Ignore("to be implemented")
     public void edit_get_should_put_staticPage_on_model(){
+
+        StaticPage staticPage = new StaticPage("poetry", "html content", true);
+
+        when(staticPageDao.read(StaticPage.class, "poetry")).thenReturn(staticPage);
+
+        ModelAndView modelAndView = staticPageController.edit("poetry");
+
+        assertEquals(staticPage, modelAndView.getModelMap().get("staticPage"));
+        assertEquals("admin/staticpage/edit", modelAndView.getViewName());
+
+        verify(staticPageDao).read(StaticPage.class, "poetry");
+
     }
 
 
