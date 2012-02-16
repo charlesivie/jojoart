@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.List;
 
 import static java.net.URLEncoder.encode;
 
@@ -46,5 +47,12 @@ public class StaticPageDaoImpl extends GenericDaoImpl<StaticPage, Long> implemen
                 .createQuery("SELECT a FROM StaticPage a WHERE :path = a.path AND a.active = true", StaticPage.class)
                 .setParameter("path", path)
                 .getSingleResult();
+    }
+
+    @Transactional
+    public List<StaticPage> listActive() {
+        return getEntityManager()
+                .createQuery("SELECT a FROM StaticPage a WHERE a.active = true", StaticPage.class)
+                .getResultList();
     }
 }

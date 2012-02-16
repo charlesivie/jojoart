@@ -2,8 +2,10 @@ package com.jojoart.web;
 
 import com.jojoart.dao.CategoryDao;
 import com.jojoart.dao.ImageDao;
+import com.jojoart.dao.StaticPageDao;
 import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
+import com.jojoart.domain.StaticPage;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,6 +42,7 @@ public class PortfolioControllerTest {
     List<Category> mockCategories = new LinkedList<Category>();
     List<Image> mockImages = new ArrayList<Image>();
     Category category;
+    @Mock private StaticPageDao mockStaticPageDao;
 
     @Before
     public void setup(){
@@ -59,6 +62,7 @@ public class PortfolioControllerTest {
         portfolioController = new PortfolioController();
         portfolioController.setCategoryDao(mockCategoryDao);
         portfolioController.setImageDao(mockImageDao);
+        portfolioController.setStaticPageDao(mockStaticPageDao);
     }
 
     @Test
@@ -118,6 +122,23 @@ public class PortfolioControllerTest {
     public void getIndex_should_put_index_view_on_model(){
         ModelAndView modelAndView = portfolioController.getIndex();
         assertEquals("index", modelAndView.getViewName());
+    }
+
+    @Test
+    public void getIndex_should_put_static_pages_on_model(){
+        
+        StaticPage staticPage = new StaticPage("about", "content", true);
+        List<StaticPage> staticPages = new ArrayList<StaticPage>();
+        staticPages.add(staticPage);
+        
+        when(mockStaticPageDao.listActive()).thenReturn(staticPages);
+
+        ModelAndView modelAndView = portfolioController.getIndex();
+
+        assertEquals(staticPages, modelAndView.getModel().get("staticPages"));
+
+
+        verify(mockStaticPageDao).listActive();
     }
 
 }

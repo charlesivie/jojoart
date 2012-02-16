@@ -138,4 +138,11 @@ public class StaticPageDaoImplTest {
 
         assertEquals("about+else", actual.getPath());
     }
+
+    @Test
+    @Ignore("to be implemented")
+    @Transactional
+    public void listActive_should_list_active(){
+
+    }
 }

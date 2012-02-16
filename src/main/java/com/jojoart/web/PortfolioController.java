@@ -2,6 +2,7 @@ package com.jojoart.web;
 
 import com.jojoart.dao.CategoryDao;
 import com.jojoart.dao.ImageDao;
+import com.jojoart.dao.StaticPageDao;
 import com.jojoart.domain.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,11 +24,13 @@ public class PortfolioController {
 
     private CategoryDao categoryDao;
     private ImageDao imageDao;
+    private StaticPageDao staticPageDao;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getIndex() {
-
-        return new ModelAndView("index");
+        ModelAndView modelAndView = new ModelAndView("index");
+        modelAndView.addObject("staticPages", staticPageDao.listActive());
+        return modelAndView;
     }
 
     @RequestMapping(value = "/{categoryName}", method = RequestMethod.GET)
@@ -76,5 +79,10 @@ public class PortfolioController {
     @Autowired
     public void setImageDao(ImageDao imageDao) {
         this.imageDao = imageDao;
+    }
+
+    @Autowired
+    public void setStaticPageDao(StaticPageDao staticPageDao) {
+        this.staticPageDao = staticPageDao;
     }
 }

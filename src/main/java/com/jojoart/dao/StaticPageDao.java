@@ -2,6 +2,8 @@ package com.jojoart.dao;
 
 import com.jojoart.domain.StaticPage;
 
+import java.util.List;
+
 /**
  * Created by IntelliJ IDEA.
  * User: charlieivie
@@ -11,4 +13,5 @@ import com.jojoart.domain.StaticPage;
  */
 public interface StaticPageDao extends GenericDao<StaticPage, Long>  {
     StaticPage findActiveByPath(String path);
+    List<StaticPage> listActive();
 }

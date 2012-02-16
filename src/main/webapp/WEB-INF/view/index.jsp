@@ -21,6 +21,14 @@
         }
     </style>
     <![endif]-->
+    <!--[if gte IE 7]>
+    <style type="text/css">
+        body { padding-left: 50%; }
+        #page {
+            margin-left: -480px;
+        }
+    </style>
+    <![endif]-->
     <script type="text/javascript" src="<c:url value="/resources/js/jquery.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery.history.js" />"></script>
     <script type="text/javascript" src="<c:url value="/resources/js/jquery.galleriffic.js" />"></script>
@@ -37,8 +45,9 @@
 <div id="header">
     <h1><a href="/">Jo Ivie Arts</a></h1>
     <ul class="topnav">
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
+        <c:forEach items="${staticPages}" var="staticPage">
+            <li><a href="/${staticPage.path}">${staticPage.name}</a></li>
+        </c:forEach>
     </ul>
 </div>
 
