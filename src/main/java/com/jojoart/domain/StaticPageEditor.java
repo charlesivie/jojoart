@@ -11,8 +11,8 @@ import java.beans.PropertyEditorSupport;
  */
 public class StaticPageEditor extends PropertyEditorSupport {
 
-    public void setAsText(String path) {
-        setValue(new StaticPage(path));
+    public void setAsText(String id) {
+        setValue(new StaticPage(Long.valueOf(id)));
     }
 
 }

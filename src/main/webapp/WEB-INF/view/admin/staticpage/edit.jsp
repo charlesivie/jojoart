@@ -20,6 +20,7 @@ To change this template use File | Settings | File Templates.
 <div>
     <form:form commandName="staticPage" method="POST" enctype="multipart/form-data">
         <form:hidden path="path"/>
+        <form:hidden path="id"/>
         <ul>
             <li><form:label path="name">Name</form:label><form:input path="name" label="name"/></li>
             <li><form:label path="active">active?</form:label><form:checkbox path="active" label="active"/></li>

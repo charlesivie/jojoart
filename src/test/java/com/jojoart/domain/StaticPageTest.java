@@ -51,10 +51,4 @@ public class StaticPageTest {
 
     }
 
-    @Test
-    public void set_path_should_url_encode_path(){
-        StaticPage staticPage1 = new StaticPage("admin then whatever", "html content", true);
-        assertEquals("admin+then+whatever", staticPage1.getPath());
-    }
-
 }

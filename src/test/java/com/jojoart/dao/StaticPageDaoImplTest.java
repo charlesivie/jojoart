@@ -43,32 +43,27 @@ public class StaticPageDaoImplTest {
     @Test
     @Transactional
     public void insert_should_insert() {
-        staticPageDao.create(staticPageSmall);
-        assertEquals(staticPageDao.read(StaticPage.class, "about"), staticPageSmall);
+        StaticPage staticPage = staticPageDao.create(staticPageSmall);
+        assertEquals(staticPageDao.read(StaticPage.class, staticPage.getId()), staticPageSmall);
     }
+
+
+    @Test
+    @Transactional
+    public void findActiveByPath_should_return_page() {
+        StaticPage staticPage = staticPageDao.create(staticPageSmall);
+        StaticPage staticPage2 = staticPageDao.create(
+                new StaticPage("about time", "<h1>A Heading</h1><p>A paragraph.</p>", true));
+
+        assertEquals(staticPageDao.findActiveByPath("about+time"), staticPage2);
+    }
+
 
     @Test(expected = PersistenceException.class)
     @Transactional
     public void insert_should_throw_when_duplicate_id() {
         staticPageDao.create(staticPageSmall);
         staticPageDao.create(new StaticPage("about", "<h1>A Heading</h1><p>A paragraph.</p>", true));
-    }
-    
-    @Test
-    @Transactional
-    public void update_should_update(){
-        StaticPage original = staticPageDao.create(staticPageSmall);
-
-        StaticPage expected = new StaticPage("about", "new", false);
-
-        original.setActive(false);
-        original.setHtmlContent("new");
-
-        staticPageDao.update(original);
-
-        StaticPage actual = staticPageDao.read(StaticPage.class, "about");
-
-        assertEquals(expected, actual);
     }
 
     @Test
@@ -79,7 +74,7 @@ public class StaticPageDaoImplTest {
 
         staticPageDao.delete(original);
 
-        StaticPage actual = staticPageDao.read(StaticPage.class, "about");
+        StaticPage actual = staticPageDao.read(StaticPage.class, original.getId());
 
         assertNull(actual);
     }
@@ -94,10 +89,53 @@ public class StaticPageDaoImplTest {
         }
         String expectedHtml = sb.toString();
         
-        staticPageDao.create(new StaticPage("about", expectedHtml, true));
+        StaticPage staticPage = staticPageDao.create(new StaticPage("about", expectedHtml, true));
 
-        assertEquals(expectedHtml, staticPageDao.read(StaticPage.class, "about").getHtmlContent());
+        assertEquals(expectedHtml, staticPageDao.read(StaticPage.class, staticPage.getId()).getHtmlContent());
     }
 
+    @Test
+    @Transactional
+    public void update_should_update(){
+        StaticPage original = staticPageDao.create(staticPageSmall);
 
+        StaticPage expected = new StaticPage("about", "new", false);
+
+        original.setActive(false);
+        original.setHtmlContent("new");
+
+        staticPageDao.update(original);
+
+        StaticPage actual = staticPageDao.read(StaticPage.class, original.getId());
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @Transactional
+    public void insert_should_set_url_encoded_path_from_name(){
+
+        StaticPage original = staticPageSmall;
+
+        original.setName("about else");
+
+        StaticPage actual = staticPageDao.create(original);
+
+        assertEquals("about+else", actual.getPath());
+
+    }
+
+    @Test
+    @Transactional
+    public void update_should_set_url_encoded_path_from_name(){
+        StaticPage original = staticPageDao.create(staticPageSmall);
+
+        original.setName("about else");
+
+        staticPageDao.update(original);
+
+        StaticPage actual = staticPageDao.read(StaticPage.class, original.getId());
+
+        assertEquals("about+else", actual.getPath());
+    }
 }

@@ -18,7 +18,9 @@ To change this template use File | Settings | File Templates.
     <ul>
         <c:forEach items="${staticPages}" var="staticPage">
             <li>
-                <a href="<c:url value="/admin/staticpage/${staticPage.path}"/>"> ${staticPage.htmlContent}, ${staticPage.active}</a>
+                <a href="<c:url value="/admin/staticpage/${staticPage.path}"/>">
+                        ${staticPage.name}, ${staticPage.htmlContent}, ${staticPage.active}
+                </a>
             </li>
         </c:forEach>
     </ul>

@@ -1,10 +1,6 @@
 package com.jojoart.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.io.UnsupportedEncodingException;
-
-import static java.net.URLEncoder.encode;
+import javax.persistence.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,23 +12,35 @@ import static java.net.URLEncoder.encode;
 @Entity
 public class StaticPage {
 
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(unique = true)
     private String path;
+    @Column(nullable = false)
     private String name;
+    @Lob
     private String htmlContent;
     private boolean active;
 
     public StaticPage(String name, String htmlContent, boolean active) {
-        setPath(name);
         this.name = name;
         this.htmlContent = htmlContent;
         this.active = active;
     }
 
-    public StaticPage() {}
+    public StaticPage() {
+    }
 
-    public StaticPage(String path) {
-        this.path = path;
+    public StaticPage(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getPath() {
@@ -40,11 +48,7 @@ public class StaticPage {
     }
 
     public void setPath(String path) {
-        try {
-            this.path = encode(path, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        this.path = path;
     }
 
     public String getHtmlContent() {

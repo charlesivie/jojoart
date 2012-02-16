@@ -84,15 +84,16 @@ public class StaticPageControllerTest {
     public void edit_get_should_put_staticPage_on_model(){
 
         StaticPage staticPage = new StaticPage("poetry", "html content", true);
+        staticPage.setId(1l);
 
-        when(staticPageDao.read(StaticPage.class, "poetry")).thenReturn(staticPage);
+        when(staticPageDao.findActiveByPath("poetry")).thenReturn(staticPage);
 
         ModelAndView modelAndView = staticPageController.edit("poetry");
 
         assertEquals(staticPage, modelAndView.getModelMap().get("staticPage"));
         assertEquals("admin/staticpage/edit", modelAndView.getViewName());
 
-        verify(staticPageDao).read(StaticPage.class, "poetry");
+        verify(staticPageDao).findActiveByPath("poetry");
 
     }
 

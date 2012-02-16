@@ -42,7 +42,7 @@ public class StaticPageController {
         ModelAndView modelAndView = new ModelAndView("admin/staticpage/edit");
 
         if (!path.equalsIgnoreCase("0")) {
-            staticPage = staticPageDao.read(StaticPage.class, path);
+            staticPage = staticPageDao.findActiveByPath(path);
         }
 
         modelAndView.addObject("staticPage", staticPage);

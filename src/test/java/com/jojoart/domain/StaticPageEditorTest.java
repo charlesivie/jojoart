@@ -16,9 +16,9 @@ public class StaticPageEditorTest {
     private StaticPageEditor editor = new StaticPageEditor();
 
     @Test
-    public void setAsTextShouldSetImage() {
-        editor.setAsText("about");
+    public void setAsTextShouldSetEditor() {
+        editor.setAsText("1");
         StaticPage staticPage = (StaticPage) editor.getValue();
-        assertEquals("about", staticPage.getPath());
+        assertEquals(new Long(1), staticPage.getId());
     }
 }

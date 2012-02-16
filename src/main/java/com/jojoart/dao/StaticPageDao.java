@@ -9,5 +9,6 @@ import com.jojoart.domain.StaticPage;
  * Time: 20:38
  * To change this template use File | Settings | File Templates.
  */
-public interface StaticPageDao extends GenericDao<StaticPage, String>  {
+public interface StaticPageDao extends GenericDao<StaticPage, Long>  {
+    StaticPage findActiveByPath(String path);
 }
