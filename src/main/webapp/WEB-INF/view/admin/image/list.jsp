@@ -1,17 +1,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!--
-Created by IntelliJ IDEA.
-User: charlieivie
-Date: 08/12/2011
-Time: 14:20
-To change this template use File | Settings | File Templates.
--->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-
 
 <html>
 <head><title>Images</title></head>
 <body>
+
+<div>
+    <jsp:include page="../nav.jsp"/>
+</div>
 
 <div><h2>Images</h2></div>
 <div>
@@ -19,11 +15,8 @@ To change this template use File | Settings | File Templates.
         <c:forEach items="${images}" var="image">
             <li>
                 <a href="<c:url value="/admin/image/${image.id}"/>">
-                    ${image.name},
-                    ${image.description},
-                    ${image.mimeType},
-                    ${image.active}</a>
-                ${image.category.name}
+                        ${image.name} -- active: ${image.active}
+                </a>
             </li>
         </c:forEach>
     </ul>

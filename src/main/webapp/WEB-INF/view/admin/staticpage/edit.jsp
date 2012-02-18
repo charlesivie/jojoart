@@ -1,12 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!--
-Created by IntelliJ IDEA.
-User: charlieivie
-Date: 08/12/2011
-Time: 14:20
-To change this template use File | Settings | File Templates.
--->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <html>
@@ -14,8 +7,13 @@ To change this template use File | Settings | File Templates.
 <body>
 
 <div>
+    <jsp:include page="../nav.jsp"/>
+</div>
+
+<div>
     <h2>${staticpage.path != null ?'Edit ':'Insert New '} Page</h2>
 </div>
+
 
 <div>
     <form:form commandName="staticPage" method="POST" enctype="multipart/form-data">
@@ -24,7 +22,7 @@ To change this template use File | Settings | File Templates.
         <ul>
             <li><form:label path="name">Name</form:label><form:input path="name" label="name"/></li>
             <li><form:label path="active">active?</form:label><form:checkbox path="active" label="active"/></li>
-            <li><form:label path="htmlContent">Html Content</form:label><form:input path="htmlContent"/></li>
+            <li><form:label path="htmlContent">Html Content</form:label><form:textarea path="htmlContent"/></li>
         </ul>
         <input type="submit" value="save"/>
     </form:form>

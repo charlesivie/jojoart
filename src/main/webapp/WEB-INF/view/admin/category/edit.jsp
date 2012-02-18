@@ -1,15 +1,12 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<!--
-  Created by IntelliJ IDEA.
-  User: charlieivie
-  Date: 08/12/2011
-  Time: 14:20
-  To change this template use File | Settings | File Templates.
--->
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head><title>Simple jspx page</title></head>
+<head><title>Admin Categories</title></head>
 <body>
+
+<div>
+    <jsp:include page="../nav.jsp"/>
+</div>
 
 <div>
     <h2>${category.id>0?'Edit ':'Insert New '} Category</h2>
