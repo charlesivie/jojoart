@@ -2,7 +2,6 @@ package com.jojoart.web.admin;
 
 import com.jojoart.dao.StaticPageDao;
 import com.jojoart.domain.StaticPage;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -26,10 +25,10 @@ import static org.mockito.Mockito.when;
  * To change this template use File | Settings | File Templates.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class StaticPageControllerTest {
+public class StaticPageAdminControllerTest {
 
     @InjectMocks
-    private StaticPageController staticPageController = new StaticPageController();
+    private StaticPageAdminController staticPageAdminController = new StaticPageAdminController();
 
     @Mock
     private StaticPageDao staticPageDao;
@@ -44,7 +43,7 @@ public class StaticPageControllerTest {
 
         when(staticPageDao.list(StaticPage.class)).thenReturn(staticPages);
 
-        ModelAndView modelAndView = staticPageController.list();
+        ModelAndView modelAndView = staticPageAdminController.list();
 
         assertEquals(staticPages, modelAndView.getModelMap().get("staticPages"));
 
@@ -58,7 +57,7 @@ public class StaticPageControllerTest {
 
         when(staticPageDao.update(staticPage)).thenReturn(staticPage);
 
-        ModelAndView modelAndView = staticPageController.edit(staticPage,  "poetry");
+        ModelAndView modelAndView = staticPageAdminController.edit(staticPage,  "poetry");
 
         verify(staticPageDao).update(staticPage);
 
@@ -72,7 +71,7 @@ public class StaticPageControllerTest {
 
         when(staticPageDao.create(staticPage)).thenReturn(staticPage);
 
-        ModelAndView modelAndView = staticPageController.edit(staticPage,  "0");
+        ModelAndView modelAndView = staticPageAdminController.edit(staticPage,  "0");
 
         verify(staticPageDao).create(staticPage);
 
@@ -88,7 +87,7 @@ public class StaticPageControllerTest {
 
         when(staticPageDao.findActiveByPath("poetry")).thenReturn(staticPage);
 
-        ModelAndView modelAndView = staticPageController.edit("poetry");
+        ModelAndView modelAndView = staticPageAdminController.edit("poetry");
 
         assertEquals(staticPage, modelAndView.getModelMap().get("staticPage"));
         assertEquals("admin/staticpage/edit", modelAndView.getViewName());

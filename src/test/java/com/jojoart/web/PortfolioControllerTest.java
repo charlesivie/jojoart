@@ -11,8 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -20,19 +18,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-
-/**
- * Created by IntelliJ IDEA.
- * User: charlieivie
- * Date: 16/01/2012
- * Time: 09:27
- * To change this template use File | Settings | File Templates.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class PortfolioControllerTest {
 
@@ -62,7 +50,6 @@ public class PortfolioControllerTest {
         portfolioController = new PortfolioController();
         portfolioController.setCategoryDao(mockCategoryDao);
         portfolioController.setImageDao(mockImageDao);
-        portfolioController.setStaticPageDao(mockStaticPageDao);
     }
 
     @Test
@@ -122,23 +109,6 @@ public class PortfolioControllerTest {
     public void getIndex_should_put_index_view_on_model(){
         ModelAndView modelAndView = portfolioController.getIndex();
         assertEquals("index", modelAndView.getViewName());
-    }
-
-    @Test
-    public void getIndex_should_put_static_pages_on_model(){
-        
-        StaticPage staticPage = new StaticPage("about", "content", true);
-        List<StaticPage> staticPages = new ArrayList<StaticPage>();
-        staticPages.add(staticPage);
-        
-        when(mockStaticPageDao.listActive()).thenReturn(staticPages);
-
-        ModelAndView modelAndView = portfolioController.getIndex();
-
-        assertEquals(staticPages, modelAndView.getModel().get("staticPages"));
-
-
-        verify(mockStaticPageDao).listActive();
     }
 
 }

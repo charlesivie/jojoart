@@ -21,7 +21,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
  */
 @Controller
 @RequestMapping("/admin/staticpage")
-public class StaticPageController {
+public class StaticPageAdminController {
 
     @Autowired
     private StaticPageDao staticPageDao;

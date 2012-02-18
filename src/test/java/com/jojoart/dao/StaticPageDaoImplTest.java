@@ -15,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.PersistenceException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
@@ -140,9 +143,22 @@ public class StaticPageDaoImplTest {
     }
 
     @Test
-    @Ignore("to be implemented")
     @Transactional
     public void listActive_should_list_active(){
-
+        
+        StaticPage good = new StaticPage("good", "<h1>A Heading</h1><p>A paragraph.</p>", true);
+        StaticPage good2 = new StaticPage("good2", "<h1>A Heading</h1><p>A paragraph.</p>", true);
+        
+        List<StaticPage> expectedStaticPages = new ArrayList<StaticPage>();
+        expectedStaticPages.add(good);
+        expectedStaticPages.add(good2);
+        
+        staticPageDao.create(good);
+        staticPageDao.create(good2);
+        staticPageDao.create(new StaticPage("bad", "<h1>A Heading</h1><p>A paragraph.</p>", false));
+        
+        List<StaticPage> actual = staticPageDao.listActive();
+        
+        assertEquals(expectedStaticPages, actual);
     }
 }

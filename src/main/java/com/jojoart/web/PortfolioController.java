@@ -24,13 +24,10 @@ public class PortfolioController {
 
     private CategoryDao categoryDao;
     private ImageDao imageDao;
-    private StaticPageDao staticPageDao;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getIndex() {
-        ModelAndView modelAndView = new ModelAndView("index");
-        modelAndView.addObject("staticPages", staticPageDao.listActive());
-        return modelAndView;
+        return new ModelAndView("index");
     }
 
     @RequestMapping(value = "/{categoryName}", method = RequestMethod.GET)
@@ -81,8 +78,4 @@ public class PortfolioController {
         this.imageDao = imageDao;
     }
 
-    @Autowired
-    public void setStaticPageDao(StaticPageDao staticPageDao) {
-        this.staticPageDao = staticPageDao;
-    }
 }
