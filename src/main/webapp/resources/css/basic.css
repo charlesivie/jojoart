@@ -47,6 +47,13 @@ pre {
     line-height: 1.2em;
     overflow-x: auto;
 }
+
+td {
+    vertical-align:top;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
 #page {
     width: 960px;
     background-color: #fff;

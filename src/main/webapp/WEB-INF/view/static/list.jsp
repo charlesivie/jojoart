@@ -3,4 +3,5 @@
     <c:forEach items="${staticPages}" var="staticPage">
         <li><a href="/static/${staticPage.path}">${staticPage.name}</a></li>
     </c:forEach>
+    <li><a href="/contact">contact</a></li>
 </ul>

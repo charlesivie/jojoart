@@ -14,15 +14,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <bean class="org.springframework.beans.factory.config.CustomEditorConfigurer">
-        <property name="customEditors">
-            <map>
-                <entry key="com.jojoart.domain.Category" value="com.jojoart.domain.CategoryEditor"/>
-                <entry key="com.jojoart.domain.Image" value="com.jojoart.domain.ImageEditor"/>
-            </map>
-        </property>
-    </bean>
-
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="maxUploadSize" value="1000000"/>
     </bean>
