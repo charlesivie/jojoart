@@ -33,6 +33,9 @@ public class ImageServiceImpl implements ImageService {
     private ImageDao imageDao;
     private ImageVersionDao imageVersionDao;
 
+    @Autowired
+    private AmazonS3Service amazonS3Service;
+
     @Transactional
     public void resizeAndStoreImage(Image image, MultipartFile multipartFile) throws IOException {
 
@@ -42,6 +45,15 @@ public class ImageServiceImpl implements ImageService {
             insert(image, multipartFile);
         }
 
+    }
+
+    @Override
+    public ImageVersion findByTypeAndImage(ImageType imageType, Image image) throws IOException {
+
+        ImageVersion imageVersion = imageVersionDao.findByTypeAndImage(imageType, image);
+        imageVersion.setImageBlob(amazonS3Service.getImage(String.valueOf(imageVersion.getId())));
+
+        return imageVersion;
     }
 
     private void update(Image image, MultipartFile multipartFile) throws IOException {
@@ -55,8 +67,8 @@ public class ImageServiceImpl implements ImageService {
 
     private void insert(Image image, MultipartFile multipartFile) throws IOException {
 
-        if (multipartFile!=null && multipartFile.isEmpty()) {
-            throw new FileNotFoundException("Multipart file cannot be null");
+        if (multipartFile==null || multipartFile.isEmpty()) {
+            throw new FileNotFoundException("Multipart file cannot be null or empty");
         }
         image.setMimeType(multipartFile.getContentType());
 
@@ -75,7 +87,10 @@ public class ImageServiceImpl implements ImageService {
 
         for (ImageType imageType : ImageType.values()) {
             byte[] bytes = getResizedBytes(bufferedImage, multipartFile, imageType.getMaxSize());
-            imageVersionDao.create(new ImageVersion(bytes, imageType.toString(), image));
+
+            ImageVersion imageVersion = imageVersionDao.create(new ImageVersion(bytes, imageType.toString(), image));
+
+            amazonS3Service.persistImage(imageVersion);
         }
     }
 
@@ -101,5 +116,10 @@ public class ImageServiceImpl implements ImageService {
     @Autowired
     public void setImageVersionDao(ImageVersionDao imageVersionDao) {
         this.imageVersionDao = imageVersionDao;
+    }
+
+    @Autowired
+    public void setAmazonS3Service(AmazonS3Service amazonS3Service) {
+        this.amazonS3Service = amazonS3Service;
     }
 }

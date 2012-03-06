@@ -36,7 +36,6 @@ import static org.powermock.api.mockito.PowerMockito.*;
  * Time: 22:28
  * To change this template use File | Settings | File Templates.
  */
-
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ImageIO.class, Scalr.class})
 public class ImageServiceImplTest {
@@ -44,11 +43,13 @@ public class ImageServiceImplTest {
     private ImageServiceImpl imageService;
     @Mock private ImageDao mockImageDao;
     @Mock private ImageVersionDao mockImageVersionDao;
+    @Mock private ImageVersion mockImageVersion;
     @Mock private Category mockCategory;
     @Mock private MultipartFile mockMultipartFile;
     @Mock private InputStream mockInputStream;
     @Mock private BufferedImage mockBufferedImage;
     @Mock private Image mockImage;
+    @Mock private AmazonS3Service mockAmazonS3Service;
     private File testPng, testJpg, testGif;
 
     @Before
@@ -60,6 +61,7 @@ public class ImageServiceImplTest {
         imageService = new ImageServiceImpl();
         imageService.setImageDao(mockImageDao);
         imageService.setImageVersionDao(mockImageVersionDao);
+        imageService.setAmazonS3Service(mockAmazonS3Service);
     }
 
     @Test
@@ -76,6 +78,22 @@ public class ImageServiceImplTest {
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
 
         verify(mockImageVersionDao, times(ImageType.values().length)).create(Matchers.<ImageVersion>anyObject());
+    }
+
+    @Test
+    public void resize_and_store_should_store_all_image_versions_on_amazon() throws IOException {
+
+        mockStatic(ImageIO.class);
+        mockStatic(Scalr.class);
+
+        Image expected = new Image("cow", "picture of a cow", "image/jpeg", true, mockCategory);
+
+        when(mockMultipartFile.getInputStream()).thenReturn(mockInputStream);
+        when(ImageIO.read(mockMultipartFile.getInputStream())).thenReturn(mockBufferedImage);
+
+        imageService.resizeAndStoreImage(expected, mockMultipartFile);
+
+        verify(mockAmazonS3Service, times(ImageType.values().length)).persistImage(Matchers.<ImageVersion>anyObject());
     }
 
     @Test
@@ -141,7 +159,7 @@ public class ImageServiceImplTest {
         mockStatic(Scalr.class);
 
         when(mockMultipartFile.isEmpty()).thenReturn(true);
-        
+
         Image expected = new Image("cow", "picture of a cow", null, true, mockCategory);
 
         imageService.resizeAndStoreImage(expected, mockMultipartFile);
@@ -164,14 +182,6 @@ public class ImageServiceImplTest {
         imageService.resizeAndStoreImage(image, null);
 
         verify(mockImageVersionDao, never());
-//        verify(mockMultipartFile, never());
-//        verify(mockImageVersionDao, never()).delete(Matchers.<ImageVersion>anyObject());
-//        verify(mockImageVersionDao, never()).create(Matchers.<ImageVersion>anyObject());
-//        verify(mockImageVersionDao, never()).getAllImageVersions(Matchers.<Image>anyObject());
-//        verify(mockMultipartFile, never()).getContentType();
-//        verify(mockMultipartFile, never()).getInputStream();
-//
-//        fail();
     }
 
     @Test
@@ -186,13 +196,6 @@ public class ImageServiceImplTest {
         imageService.resizeAndStoreImage(image, null);
 
         verify(mockMultipartFile, never());
-//        verify(mockImageVersionDao, never()).delete(Matchers.<ImageVersion>anyObject());
-//        verify(mockImageVersionDao, never()).create(Matchers.<ImageVersion>anyObject());
-//        verify(mockImageVersionDao, never()).getAllImageVersions(Matchers.<Image>anyObject());
-//        verify(mockMultipartFile, never()).getContentType();
-//        verify(mockMultipartFile, never()).getInputStream();
-//
-//        fail();
     }
 
     @Test
@@ -207,14 +210,19 @@ public class ImageServiceImplTest {
         imageService.resizeAndStoreImage(mockImage, null);
 
         verify(mockImage, never()).setMimeType(Matchers.<String>anyObject());
-//        verify(mockMultipartFile, never());
-//        verify(mockImageVersionDao, never()).delete(Matchers.<ImageVersion>anyObject());
-//        verify(mockImageVersionDao, never()).create(Matchers.<ImageVersion>anyObject());
-//        verify(mockImageVersionDao, never()).getAllImageVersions(Matchers.<Image>anyObject());
-//        verify(mockMultipartFile, never()).getContentType();
-//        verify(mockMultipartFile, never()).getInputStream();
-//
-//        fail();
     }
-    
+
+    @Test
+    public void findByTypeAndImage_should_call_imageVersion_dao_and_amazon_service() throws IOException {
+
+        when(mockImageVersion.getId()).thenReturn(1l);
+        when(mockImageVersionDao.findByTypeAndImage(ImageType.NORMAL, mockImage)).thenReturn(mockImageVersion);
+
+        imageService.findByTypeAndImage(ImageType.NORMAL, mockImage);
+
+        verify(mockAmazonS3Service).getImage(String.valueOf(mockImageVersion.getId()));
+        verify(mockImageVersionDao).findByTypeAndImage(ImageType.NORMAL, mockImage);
+
+    }
+
 }

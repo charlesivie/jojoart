@@ -28,6 +28,20 @@
         <property name="password" value="${db.connection.password}"/>
     </bean>
 
+    <bean class="com.jojoart.service.AmazonS3ServiceImpl" id="amazonS3Service">
+        <constructor-arg name="s3Client" ref="s3Client" />
+        <constructor-arg name="bucketName" value="jojoart" />
+    </bean>
+
+    <bean class="com.amazonaws.auth.BasicAWSCredentials" id="awsCredentials">
+        <constructor-arg name="accessKey" value="${AWS_ACCESS_KEY}" />
+        <constructor-arg name="secretKey" value="${AWS_SECRET_ACCESS_KEY}" />
+    </bean>
+
+    <bean class="com.amazonaws.services.s3.AmazonS3Client" id="s3Client">
+        <constructor-arg ref="awsCredentials" />
+    </bean>
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <context:component-scan base-package="com.jojoart"/>

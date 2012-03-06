@@ -1,6 +1,8 @@
 package com.jojoart.service;
 
 import com.jojoart.domain.Image;
+import com.jojoart.domain.ImageType;
+import com.jojoart.domain.ImageVersion;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -14,4 +16,5 @@ import java.io.IOException;
  */
 public interface ImageService {
     void resizeAndStoreImage(Image image, MultipartFile multipartFile) throws IOException;
+    ImageVersion findByTypeAndImage(ImageType imageType, Image image) throws IOException;
 }
