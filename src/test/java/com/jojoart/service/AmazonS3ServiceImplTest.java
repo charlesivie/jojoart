@@ -47,7 +47,7 @@ public class AmazonS3ServiceImplTest {
     }
 
     @Test
-//    @Ignore("amazon s3 integration test")
+    @Ignore("amazon s3 integration test")
     public void insertImageAndGet() throws IOException {
         File testJpg = new ClassPathResource("image/sf.gif").getFile();
 

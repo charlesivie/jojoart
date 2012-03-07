@@ -5,6 +5,7 @@ import com.jojoart.domain.Category;
 import com.jojoart.domain.Image;
 import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
+import com.jojoart.service.ImageService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,9 +31,9 @@ import static org.mockito.Mockito.when;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class ImageStreamControllerTest {
-    
+
     ImageStreamController imageStreamController;
-    @Mock ImageVersionDao imageVersionDao;
+    @Mock ImageService imageService;
     @Mock HttpServletResponse httpServletResponse;
     @Mock ServletOutputStream servletOutputStream;
     Image image;
@@ -43,7 +44,7 @@ public class ImageStreamControllerTest {
 
     @Before
     public void setUp() throws Exception {
-        
+
         category = new Category("john", "desc", true, false);
         image = new Image("image image", "pictures of a cow", "image/jpg", true, category);
         image.setId(imageId);
@@ -61,23 +62,23 @@ public class ImageStreamControllerTest {
         imageVersion2.setId(2l);
 
         imageStreamController = new ImageStreamController();
-        imageStreamController.setImageVersionDao(imageVersionDao);
+        imageStreamController.setImageService(imageService);
     }
 
     @Test
     public void stream_should_get_image_by_id_and_type() throws Exception {
-        when(imageVersionDao.findByTypeAndImage(ImageType.NORMAL, new Image(image.getId()))).thenReturn(imageVersion);
+        when(imageService.findByTypeAndImage(ImageType.NORMAL, new Image(image.getId()))).thenReturn(imageVersion);
         when(httpServletResponse.getOutputStream()).thenReturn(servletOutputStream);
 
         imageStreamController.stream(httpServletResponse, imageId, ImageType.NORMAL.toString());
 
-        verify(imageVersionDao).findByTypeAndImage(ImageType.NORMAL, new Image(image.getId()));
+        verify(imageService).findByTypeAndImage(ImageType.NORMAL, new Image(image.getId()));
     }
 
     @Test
     public void stream_should_set_correct_response() throws IOException {
 
-        when(imageVersionDao.findByTypeAndImage(ImageType.NORMAL, new Image(image.getId()))).thenReturn(imageVersion);
+        when(imageService.findByTypeAndImage(ImageType.NORMAL, new Image(image.getId()))).thenReturn(imageVersion);
         when(httpServletResponse.getOutputStream()).thenReturn(servletOutputStream);
 
         imageStreamController.stream(httpServletResponse, imageId, ImageType.NORMAL.toString());

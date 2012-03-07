@@ -4,6 +4,7 @@ import com.jojoart.dao.ImageVersionDao;
 import com.jojoart.domain.Image;
 import com.jojoart.domain.ImageType;
 import com.jojoart.domain.ImageVersion;
+import com.jojoart.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import java.io.IOException;
 @RequestMapping(value = "/image")
 public class ImageStreamController {
 
-    private ImageVersionDao imageVersionDao;
+    private ImageService imageService;
 
     @RequestMapping(value = "/{imageId}/{type}", method = RequestMethod.GET)
     public void stream(
@@ -33,7 +34,7 @@ public class ImageStreamController {
             @PathVariable Long imageId,
             @PathVariable String type) throws IOException {
 
-        ImageVersion imageVersion = imageVersionDao.findByTypeAndImage(
+        ImageVersion imageVersion = imageService.findByTypeAndImage(
                 ImageType.valueOf(type.toUpperCase()),
                 new Image(imageId));
 
@@ -45,7 +46,8 @@ public class ImageStreamController {
     }
 
     @Autowired
-    public void setImageVersionDao(ImageVersionDao imageVersionDao) {
-        this.imageVersionDao = imageVersionDao;
+    public void setImageService(ImageService imageService) {
+        this.imageService = imageService;
     }
+
 }

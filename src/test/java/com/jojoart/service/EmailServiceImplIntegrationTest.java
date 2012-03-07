@@ -35,6 +35,7 @@ public class EmailServiceImplIntegrationTest {
     }
 
     @Test
+    @Ignore("email service int test")
     public void sendShouldSendMessage() throws Exception {
 
         ClientResponse response = emailService.send(
