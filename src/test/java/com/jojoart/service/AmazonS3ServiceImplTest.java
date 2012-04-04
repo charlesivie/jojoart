@@ -21,19 +21,12 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.internal.util.reflection.Whitebox.setInternalState;
 
-/**
- * Created by IntelliJ IDEA.
- * User: charlieivie
- * Date: 05/03/2012
- * Time: 20:22
- * To change this template use File | Settings | File Templates.
- */
 @RunWith(MockitoJUnitRunner.class)
 public class AmazonS3ServiceImplTest {
 
     private String bucketName = "test-jojoart";
-    private String myAccessKeyID = "AKIAJMNT7ZFZM47URHFA";
-    private String mySecretKey = "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";
+    private String myAccessKeyID = System.getenv("AWS_ACCESS_KEY");
+    private String mySecretKey = System.getenv("AWS_SECRET_ACCESS_KEY");
     private AmazonS3ServiceImpl amazonS3Service;
 
     @Before
