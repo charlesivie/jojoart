@@ -23,6 +23,12 @@ public class PortfolioController {
         return new ModelAndView("index");
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoResultException.class)
+    public void handle(){
+        // do nothing
+    }
+
     @RequestMapping(value = "/{categoryName}", method = RequestMethod.GET)
     public ModelAndView getIndex(@PathVariable("categoryName") String categoryName) {
 
@@ -59,12 +65,6 @@ public class PortfolioController {
         );
 
         return modelAndView;
-    }
-
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(NoResultException.class)
-    public void handle(){
-        // do nothing
     }
 
     @Autowired
