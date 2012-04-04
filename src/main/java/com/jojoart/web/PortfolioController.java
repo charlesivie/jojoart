@@ -12,13 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-/**
- * Created by IntelliJ IDEA.
- * User: charlieivie
- * Date: 16/01/2012
- * Time: 09:17
- * To change this template use File | Settings | File Templates.
- */
 @Controller
 public class PortfolioController {
 
